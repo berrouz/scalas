@@ -1,5 +1,5 @@
 package scala.org.shev4ik.coding.sorting
 
-object BubbleSort {
+object BubbleSort extends App {
 
 }
