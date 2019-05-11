@@ -1,0 +1,2 @@
+# scalas
+Scala Solutions
