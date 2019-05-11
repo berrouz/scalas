@@ -1,22 +1,24 @@
 package org.shev4ik.coding.linkedlist
 
+import scala.annotation.tailrec
+
 object ReverseLinkedList extends App {
 
   (1 :: 2 :: 3 :: Nil).reverse.foreach(print)
 
   implicit class ListOps(l: List[Int]) {
-    def reverse(): List[Int] = {
-      rev(l)
-    }
+    val reverse: List[Int] = rev(l)
   }
 
-  def rev(l: List[Int]): List[Int] = {
+  val rev: List[Int] ⇒ List[Int] = list ⇒ {
+    @tailrec
     def inner(l: List[Int], r: List[Int]): List[Int] = {
       l match {
-        case Nil       => r
-        case h :: tail => inner(tail, h +: r)
+        case Nil ⇒ r
+        case h :: tail ⇒ inner(tail, h +: r)
       }
     }
-    inner(l, Nil)
+
+    inner(list, Nil)
   }
 }
