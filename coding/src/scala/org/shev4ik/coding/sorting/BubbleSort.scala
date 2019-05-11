@@ -1,4 +1,4 @@
-package scala.org.shev4ik.coding.sorting
+package org.shev4ik.coding.sorting
 
 object BubbleSort extends App {
   val arr = Array(3, 7, 9, 8, 4, 5, 1, 6, 2, 0)
