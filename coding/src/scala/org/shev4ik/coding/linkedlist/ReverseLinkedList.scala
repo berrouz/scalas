@@ -4,11 +4,9 @@ import scala.annotation.tailrec
 
 object ReverseLinkedList extends App {
 
-  (1 :: 2 :: 3 :: Nil).reverse.foreach(print)
+  import implicits._
 
-  implicit class ListOps(l: List[Int]) {
-    val reverse: List[Int] = rev(l)
-  }
+  (1 → 2 → 3 reverse) foreach print
 
   val rev: List[Int] ⇒ List[Int] = list ⇒ {
     @tailrec
@@ -21,4 +19,20 @@ object ReverseLinkedList extends App {
 
     inner(list, Nil)
   }
+}
+
+object implicits {
+
+  implicit class IntOps(i: Int) {
+    def →(i2: Int): List[Int] = {
+      i :: i2 :: Nil
+    }
+  }
+
+  implicit class ListOps(list: List[Int]) {
+    def →(i2: Int): List[Int] = {
+      list :+ i2
+    }
+  }
+
 }
