@@ -1,5 +1,5 @@
 package org.shev4ik.coding
-import shapeless._
+import shapelesss._
 
 object GenericTypeParams extends App {
 

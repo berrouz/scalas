@@ -1,4 +1,4 @@
-package org.shev4ik.coding.shapeless
+package org.shev4ik.coding.shapelesss
 
 import shapeless.ops.record.{Keys, _}
 import shapeless._, record._
