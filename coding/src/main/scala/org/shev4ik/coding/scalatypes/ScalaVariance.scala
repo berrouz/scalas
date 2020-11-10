@@ -13,4 +13,3 @@ object ScalaVariance extends App {
 
   case class ContainerPlus[A](value: A)
 }
-``
