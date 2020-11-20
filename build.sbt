@@ -11,6 +11,7 @@ lazy val coding = project.settings(libraryDependencies ++= dependencies)
 
 lazy val root = Project(id = "scalas", base = file(".")).aggregate(coding)
 
+
 val CirceVersion = "0.13.0"
 val ShapelessVersion = "2.3.3"
 val CatsEffectVersion = "2.1.3"
@@ -28,5 +29,22 @@ lazy val dependencies: Seq[ModuleID] = Seq(
   circeParser,
   circeLiteral,
   shapeless,
-  catsEffect
+  catsEffect,
+  zio,
+  zioTest,
+  zioTestSbt,
+  zioMacros,
+  `zioInteropCats`,
+  zioConfig,
+  zioConfigMagnolia,
+  zioConfigTypesafe
 )
+
+val zio               = "dev.zio"     %% "zio"                 % Versions.zio
+val zioTest           = "dev.zio"     %% "zio-test"            % Versions.zio % "test"
+val zioTestSbt        = "dev.zio"     %% "zio-test-sbt"        % Versions.zio % "test"
+val `zioInteropCats`  = "dev.zio"     %% "zio-interop-cats"    % Versions.zioInteropCats
+val zioMacros         = "dev.zio"     %% "zio-macros"          % Versions.zio
+val zioConfig         = "dev.zio"     %% "zio-config"          % Versions.zioConfig
+val zioConfigMagnolia = "dev.zio"     %% "zio-config-magnolia" % Versions.zioConfig
+val zioConfigTypesafe = "dev.zio"     %% "zio-config-typesafe" % Versions.zioConfig
