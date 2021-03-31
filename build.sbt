@@ -38,6 +38,12 @@ val zioConfigRefined = "dev.zio" %% "zio-config-refined" % Versions.zioConfig
 val zioConfigYaml = "dev.zio" %% "zio-config-yaml" % Versions.zioConfig
 val zioConfigGen = "dev.zio" %% "zio-config-gen" % Versions.zioConfig
 
+
+val enumeratum          = "com.beachape" %% "enumeratum" % Versions.enumeratum
+val `enumeratum-doobie` = "com.beachape" %% "enumeratum-doobie" % Versions.enumeratumDoobie
+val `enumeratum-circe`  = "com.beachape" %% "enumeratum-circe" % Versions.enumeratumCirce
+
+
 lazy val dependencies: Seq[ModuleID] = Seq(
   cats,
   circeExtras,
@@ -57,7 +63,10 @@ lazy val dependencies: Seq[ModuleID] = Seq(
   zioConfigRefined,
   zioConfigYaml,
   zioConfigGen,
-  refined
+  refined,
+  `enumeratum-circe`,
+  enumeratum,
+  `enumeratum-doobie`
 )
 
 

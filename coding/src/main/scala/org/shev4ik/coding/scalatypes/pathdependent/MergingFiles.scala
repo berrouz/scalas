@@ -6,32 +6,30 @@ import scala.collection.immutable
 import scala.language.higherKinds
 
 object MergingFiles extends App {
-/*
 
   sealed trait MergeStrategy {
-    type Output[_]
+    type T
+
+    def body(s:T): String
   }
   object MergeStrategy {
-    case object Single extends MergeStrategy { type Output[A] = A }
-    case object Multiple extends MergeStrategy { type Output[A] = List[A] }
-    case object None extends MergeStrategy { type Output[_] = Unit }
-  }
-
-
-  def merge[E](files: List[E]): E = {
-    files.head
-  }
-  def merge[E, O[_], T](files: List[E], mergeStrategy: MergeStrategy {type Output[A] = O[A]})(f: O[E] => T): T = {
-    mergeStrategy match {
-      case MergeStrategy.Single => f(merge(files))
-      case MergeStrategy.Multiple => f(files)
-      case MergeStrategy.None => f(())
+    case object Single extends MergeStrategy {
+      type T = String
+      override def body(s: T): String = s
     }
+    case object Multiple extends MergeStrategy {
+      type T = Int
+      override def body(s: T): String = s.toString
+    }
+  }
+
+  def merge[E, O[_], T](files: O[T], mergeStrategy: MergeStrategy)(m: mergeStrategy.T): String = {
+    mergeStrategy.body(m)
   }
 
   val list: immutable.List[Int] = List(1,2)
 
-  merge(list, MergeStrategy.Single){ file: Int => 1}
-  //merge(List(1,2), MergeStrategy.Multiple){ files => ???}*/
+  merge(list, MergeStrategy.Multiple)(1)
+  merge(list, MergeStrategy.Single)("1")
 
 }
