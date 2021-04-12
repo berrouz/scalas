@@ -8,7 +8,6 @@ object Palindrome extends App {
     else
       r
 
-
   def get(x: Int) = {
     var reverted = 0
     var xx = x

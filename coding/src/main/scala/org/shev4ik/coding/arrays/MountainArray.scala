@@ -1,9 +1,8 @@
 package org.shev4ik.coding.arrays
 
 object MountainArray extends App {
-
-
   println(validMountainArray(Array(0,3,2,1)))
+
   def validMountainArray(A: Array[Int]): Boolean = {
     if (A.length < 3 || A(0) >= A(1)) return false
     var isIncrease = true

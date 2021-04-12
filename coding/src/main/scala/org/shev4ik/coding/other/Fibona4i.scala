@@ -1,7 +1,8 @@
 package org.shev4ik.coding.other
 
 object Fibona4i extends App {
-  Some(fib(10)) foreach println
+  Some(fibona4i(10)) foreach println
+
   def fib(n: Int): Int = {
     def inner(n: Int, prev: Int, next: Int): Int = {
       n match {
@@ -11,4 +12,23 @@ object Fibona4i extends App {
     }
     inner(n, 0, 1)
   }
+
+  def fibona4i(i: Long): Long = {
+    val map = scala.collection.mutable.Map[Long, Long]()
+    def fib(n: Long): Long = {
+      if (map.contains(n)){
+        map(n)
+      } else {
+        if (n <= 2)
+          1
+        else {
+          val calculated = fib(n-1) + fib(n-2)
+          map += (n -> calculated)
+          calculated
+        }
+      }
+    }
+    fib(i)
+  }
+
 }

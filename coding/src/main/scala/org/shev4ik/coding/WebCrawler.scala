@@ -12,9 +12,9 @@ import scala.util.{Failure, Success, Try}
 object WebCrawlerApp extends App {
   implicit val system: ActorSystem = ActorSystem()
 
-  val actor = system.actorOf(Props(new Crawler()))
+  /*val actor = system.actorOf(Props(new Crawler()))
   implicit val timeout: Timeout = 2.seconds
-  actor ! Start
+  actor ! Start*/
 }
 
 object web {
@@ -75,7 +75,7 @@ class Crawler(
   }
 
   override def receive: Receive = {
-    case Start(start) => crawlUrl(start)
+    //case Start(start) => crawlUrl(start)
     case CrawlResult(url, links) =>
       inProgress -= url
       links.foreach { link =>
