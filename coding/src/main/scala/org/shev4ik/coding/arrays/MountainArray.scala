@@ -15,7 +15,6 @@ object MountainArray extends App {
       } else if (!isIncrease && A(i-1) < A(i)){
         return false
       }
-
     }
     !isIncrease
   }

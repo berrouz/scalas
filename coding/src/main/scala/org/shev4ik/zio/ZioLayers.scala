@@ -53,7 +53,7 @@ object ZioLayers extends zio.App {
     val app = program.provideLayer((UserDb.live >+> HelloService.live  >>> layers) ++
       ZConfig.fromPropertiesFile(getClass.getResource("/file.conf").getPath, myConfig) )
     app.foldM(
-      err => putStrLn(s"Execution failed with: $err") *> ZIO.succeed(ExitCode.failure),
+      err => putStrLn(s"Execution failed with: $err").orDie.exitCode,
       _ => ZIO.succeed(ExitCode.success)
     )
   }

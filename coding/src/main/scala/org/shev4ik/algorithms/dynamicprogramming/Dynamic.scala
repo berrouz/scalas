@@ -3,10 +3,10 @@ package org.shev4ik.algorithms.dynamicprogramming
 import scala.collection.mutable
 
 object Dynamic extends App {
-  def fib(n: Int): Int = {
-    val map = new mutable.HashMap[Int, Int]()
+  def fib(n: Long): Long = {
+    val map = new mutable.HashMap[Long, Long]()
 
-    def inner(nn: Int): Int = {
+    def inner(nn: Long): Long = {
       val rr = map.get(nn)
       rr.getOrElse(nn match {
         case 0 | 1 => 1
@@ -22,5 +22,5 @@ object Dynamic extends App {
     inner(n-1)
   }
 
-  println(fib(11))
+  println(fib(50))
 }
