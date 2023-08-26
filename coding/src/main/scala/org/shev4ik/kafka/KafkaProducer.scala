@@ -1,56 +1,65 @@
 package org.shev4ik.kafka
 
-import zio.ExitCode
-import zio.Has
-import zio.IO
-import zio.RIO
-import zio.URIO
-import zio.ZLayer
-import zio.blocking.Blocking
-import zio.clock.Clock
-import zio.console.Console
-import zio.console.putStr
-import zio.console.putStrLn
-import zio.duration.{Duration, durationInt}
-import zio.kafka.consumer.Consumer
-import zio.kafka.consumer.ConsumerSettings
-import zio.kafka.consumer.Subscription
+import cats.implicits.catsStdShowForString
+import org.apache.kafka.clients.producer.ProducerRecord
+import zio.Config.LocalDateTime
+import zio._
+import zio.interop.console.cats.putStr
+import zio.kafka.consumer.{Consumer, ConsumerSettings, Subscription}
+import zio.kafka.producer.{Producer, ProducerSettings}
 import zio.kafka.serde.Serde
+import zio.stream.ZStream
 
-object KafkaProducer extends zio.App {
+import java.time.LocalDate
+import java.util.Date
+object KafkaProducer extends zio.ZIOAppDefault {
+  private val BOOSTRAP_SERVERS = List("localhost:9092")
+  private val KAFKA_TOPIC      = "streaming-hello"
+  private val producer: ZLayer[Any, Throwable, Producer] =
+    ZLayer.scoped(
+      Producer.make(
+        ProducerSettings(BOOSTRAP_SERVERS)
+      )
+    )
 
-  private val host = "localhost:9092"
-  private val group = "group"
-  private val timeout: Duration = 30.seconds
 
-  val settings: ConsumerSettings =
-    ConsumerSettings(List(host))
-      .withGroupId(group)
-      .withClientId("client")
-      .withCloseTimeout(timeout)
+ /* private val consumerB: ZLayer[MyConsumerB, Throwable, Consumer] = for {
+    c <- ZLayer.environment[MyConsumerB]
+    cc <- ZLayer.scoped(
+      Consumer.make(
+        ConsumerSettings(BOOSTRAP_SERVERS)
+          .withGroupId(c.get.group)
+      )
+    )
+  } yield cc
+*/
+  def run = {
+    val p: ZStream[Producer, Throwable, Nothing] =
+      ZStream
+        .repeatZIO(Clock.currentDateTime)
+        .schedule(Schedule.spaced(1.second))
+        .map(time => {
+          val record = new ProducerRecord(KAFKA_TOPIC, time.getMinute%3, time.getMinute, s"Message ${new Date().toInstant}")
 
-  private val updates = "updates"
+          record
+        }
+        )
+        .via(Producer.produceAll(Serde.int, Serde.string))
+        .drain
 
-  val subscription: Subscription = Subscription.topics(updates)
+    val c1: ZStream[Any, Throwable, Nothing] =
+      Consumer.subscribeAnd(Subscription.manual(KAFKA_TOPIC -> 1)).plainStream(Serde.int, Serde.string).tap(record => {
+        Console.printLine(s"Consumer 1 ${record.value} partition ${record.partition}")
+      }).map(_.offset).mapZIO(_.commit)
+        .provideSomeLayer(ZLayer.scoped(Consumer.make(ConsumerSettings(BOOSTRAP_SERVERS).withGroupId("group1")))).drain
 
-  val consumer: RIO[Any with Console with Blocking with Clock, Unit] = Consumer
-    .consumeWith(settings, subscription, Serde.string, Serde.string) {
-      case (key, value) =>
-        putStrLn(s"Received message $key: $value").orDie
-    }
 
-  val env: ZLayer[Clock with Blocking, Throwable, Has[Consumer]] = ZLayer.fromManaged(Consumer.make(settings))
+    val c2: ZStream[Any, Throwable, Nothing] =
+      Consumer.subscribeAnd(Subscription.manual(KAFKA_TOPIC -> 2, KAFKA_TOPIC -> 0)).plainStream(Serde.int, Serde.string).tap(record => {
+        Console.printLine(s"Consumer 2 ${record.value} partition ${record.partition}")
+      }).map(_.offset).mapZIO(_.commit)
+        .provideSomeLayer(ZLayer.scoped(Consumer.make(ConsumerSettings(BOOSTRAP_SERVERS).withGroupId("group2")))).drain
 
-  override def run(args: List[String]): URIO[zio.ZEnv, ExitCode] =
-    Consumer
-      .subscribeAnd(subscription)
-      .plainStream(Serde.string, Serde.string)
-      .tap(cr ⇒ putStr(cr.value))
-      .map(_.offset)
-      .aggregateAsync(Consumer.offsetBatches)
-      .mapM(_.commit)
-      .runDrain
-      .provideCustomLayer(env)
-      .exitCode
-
+    (c1 merge c2).runDrain.provide(producer)
+  }
 }

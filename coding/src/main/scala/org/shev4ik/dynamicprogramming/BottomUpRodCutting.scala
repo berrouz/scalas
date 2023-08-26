@@ -3,7 +3,7 @@ package org.shev4ik.dynamicprogramming
 object BottomUpRodCutting extends App {
 
 
-  val costs = Map(
+  val costs: Map[Int, Int] = Map(
     1 -> 4,
     2 -> 6,
     3 -> 5,
@@ -22,4 +22,7 @@ object BottomUpRodCutting extends App {
   }
 
   println(rod(4, Nil))
+
+
+  //def same(a: Any, b: a.type) = ???
 }

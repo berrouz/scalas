@@ -1,5 +1,7 @@
 package org.shev4ik.catseffects
 
+import cats.effect.Sync
+
 object Asyncer extends App{
   import cats.effect.{IO, Async}
 
@@ -19,4 +21,7 @@ object Asyncer extends App{
     }
 
   ioa.unsafeRunSync()
+
+
+  Sync[IO].delay(IO(println("Heello"))).unsafeRunSync()
 }

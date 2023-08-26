@@ -5,9 +5,11 @@ name := "scalas"
 
 version := "0.1"
 
-scalaVersion := "2.12.8"
+scalaVersion := "2.13.10"
 
 lazy val coding = project.settings(libraryDependencies ++= dependencies)
+lazy val avro4s = project.settings(libraryDependencies ++= avroDeps)
+lazy val magnoliaKafka = project.settings(libraryDependencies ++= magnoliaDeps)
 lazy val player = project.settings(libraryDependencies ++= playDeps).enablePlugins(PlayScala)
 
 lazy val root = Project(id = "scalas", base = file(".")).aggregate(coding, player)
@@ -16,6 +18,8 @@ val CirceVersion = "0.13.0"
 val ShapelessVersion = "2.3.3"
 val CatsEffectVersion = "2.1.3"
 val cats = "org.typelevel" %% "cats-core" % "2.1.0"
+
+val avro = "com.sksamuel.avro4s" %% "avro4s-core" % "4.1.0"
 val circeExtras = "io.circe" %% "circe-generic-extras" % CirceVersion
 val circeGeneric = "io.circe" %% "circe-generic" % CirceVersion
 val circeParser = "io.circe" %% "circe-parser" % CirceVersion
@@ -37,7 +41,7 @@ val zioConfigTypesafe = "dev.zio" %% "zio-config-typesafe" % Versions.zioConfig
 val zioConfigRefined = "dev.zio" %% "zio-config-refined" % Versions.zioConfig
 val zioConfigYaml = "dev.zio" %% "zio-config-yaml" % Versions.zioConfig
 val zioConfigGen = "dev.zio" %% "zio-config-gen" % Versions.zioConfig
-
+val zioJson = "dev.zio" %% "zio-json" % Versions.zioJson
 
 val enumeratum          = "com.beachape" %% "enumeratum" % Versions.enumeratum
 val `enumeratum-doobie` = "com.beachape" %% "enumeratum-doobie" % Versions.enumeratumDoobie
@@ -51,8 +55,18 @@ val slick             = "com.typesafe.slick"    %% "slick"  % "3.2.3"
 val postgresql           = "org.postgresql"      % "postgresql"              % "42.2.8"
 val playJson          = "com.typesafe.play"     %% "play-json"             % "2.6.14"
 
+val magnolia = "com.softwaremill.magnolia1_2" %% "magnolia" % "1.1.3"
+
 lazy val playDeps: Seq[ModuleID] = Seq(
   playSlick, playSlickEvo, slick, postgresql, playJson
+)
+
+lazy val avroDeps: Seq[ModuleID] = Seq(
+  avro
+)
+
+lazy val magnoliaDeps: Seq[ModuleID] = Seq(
+  avro, magnolia
 )
 
 lazy val dependencies: Seq[ModuleID] = Seq(
@@ -79,7 +93,9 @@ lazy val dependencies: Seq[ModuleID] = Seq(
   enumeratum,
   `enumeratum-doobie`,
   zioStreams,
-  zioKafka
+  zioKafka,
+  zioJson,
+  magnolia
 )
 
 

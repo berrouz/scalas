@@ -52,9 +52,7 @@ object Dependent extends App {
   }
 
 
-  def merge[E](files: List[E]): E = {
-    files.head
-  }
+
   def merge[E, O[_], T](files: List[E], mergeStrategy: MergeStrategy {type Output[A] = O[A]})(f: O[E] => T): T = {
     mergeStrategy match {
       case MergeStrategy.Single => f(merge(files))
@@ -67,4 +65,24 @@ object Dependent extends App {
 
   merge(list, MergeStrategy.Single){ file: Int => 1}
   //merge(List(1,2), MergeStrategy.Multiple){ files => ???}*/
+
+
+  trait BillingInfo
+
+  class Strategy {
+    type S <: BillingInfo
+  }
+
+  object UsualStrategy extends Strategy {type S = Billing}
+  object SplitStrategy extends Strategy {type S = SplitBilling}
+
+  case class Billing(fee: Int) extends BillingInfo
+  case class SplitBilling(fees: List[Int]) extends BillingInfo
+
+
+  def handle(s: Strategy)(f: Int => s.S): s.S = {
+    f(1)
+  }
+  handle(UsualStrategy)(x => Billing(x))
+  handle(SplitStrategy)(x => SplitBilling(List(x)))
 }

@@ -8,6 +8,8 @@ object Versions {
   val enumeratumDoobie = "1.6.0"
   val enumeratumCirce = "1.6.0"
 
-  val zioStreams = "1.0.12"
-  val zioKafka = "0.17.0"
+  val zioStreams = "2.0.6"
+  val zioKafka = "2.0.6"
+
+  val zioJson = "0.4.2"
 }
