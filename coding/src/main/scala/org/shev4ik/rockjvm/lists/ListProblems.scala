@@ -31,6 +31,12 @@ sealed abstract class RList[+T] {
   def rotate(k: Int): RList[T]
 
   def insertionSort[S >: T](implicit ordering: Ordering[S]): RList[S]
+
+  def mergeSort[S >: T](implicit ordering: Ordering[S]): RList[S]
+
+  def quickSort[S >: T](implicit ordering: Ordering[S]): RList[S]
+
+  def splitAt(n: Int): (RList[T], RList[T])
 }
 
 case object RNil extends RList[Nothing] {
@@ -59,6 +65,12 @@ case object RNil extends RList[Nothing] {
   override def rotate(k: Int): RList[Nothing] = RNil
 
   override def insertionSort[S >: Nothing](implicit ordering: Ordering[S]): RList[S] = RNil
+
+  override def mergeSort[S](implicit ordering: Ordering[S]): RList[S] = this
+
+  override def quickSort[S](implicit ordering: Ordering[S]): RList[S] = this
+
+  override def splitAt(n: Int): (RList[Nothing], RList[Nothing]) = (RNil, RNil)
 }
 
 case class ::[+T](override val head: T, override val tail: RList[T]) extends RList[T] {
@@ -197,36 +209,67 @@ case class ::[+T](override val head: T, override val tail: RList[T]) extends RLi
   override def insertionSort[S >: T](implicit ordering: Ordering[S]): RList[S] = {
     @tailrec
     def loop(rest: RList[S], result: RList[S]): RList[S] = {
-      println(result)
       rest match {
         case RNil => result
-        case head :: tail => loop(tail, insert(head, result))
+        case head :: tail => loop(tail, insert(head, RNil, result))
       }
     }
 
     loop(this, RNil)
   }
 
-  /*
-  *   3 [1,2,4] []
-  *     [2,4] [1]
-  *     [4]   [1,2]
-  *     []   [1,2,3,4]
-  * */
-  def insert[S >: T](elem: S, list: RList[S])(implicit ordering: Ordering[S]): RList[S] = {
-    @tailrec
-    def loop(left: RList[S], right: RList[S]): RList[S] = {
-      left match {
-        case RNil if right.isEmpty => elem :: right
-        case RNil => right
-        case h :: tail =>
-          if (ordering.compare(elem, h) < 0  )
-            right.reverse ++ (elem :: left)
-          else
-            loop(tail, h :: right)
+  def splitAt(n: Int): (RList[T], RList[T]) = {
+    def inner(first: RList[T], second: RList[T], counter: Int): (RList[T], RList[T]) = {
+      if (counter == n){
+        (first, second)
+      } else {
+        inner(second.head ::first, second.tail, counter +1)
       }
     }
-    loop(list, RNil)
+    inner(RNil, this, 0)
+  }
+
+
+  override def mergeSort[S >: T](implicit ordering: Ordering[S]): RList[S] = {
+    def merge(listA: RList[S], listB: RList[S]): RList[S] = {
+      (listA, listB) match {
+        case (RNil, b) => b
+        case (a, RNil) => a
+        case (headA::tailA, headB::tailB) =>
+          if (ordering.lt(headA, headB)){
+            headA :: merge(tailA, listB)
+          } else {
+            headB :: merge(tailB, listA)
+          }
+      }
+    }
+
+    val size = this.length/2
+    if (size == 0){
+      this
+    } else {
+      val (a, b) = splitAt(size)
+      merge(a.mergeSort(ordering), b.mergeSort(ordering))
+    }
+  }
+
+  override def quickSort[S](implicit ordering: Ordering[S]): RList[S] = {
+    ???
+  }
+
+
+  /*
+      *   3 [1,2,4] []
+      *     [2,4] [1]
+      *     [4]   [1,2]
+      *     []   [1,2,3,4]
+      * */
+  @tailrec
+  final def insert[S](elem: S, before: RList[S], after: RList[S])(implicit ordering: Ordering[S]): RList[S] = {
+    if (after.isEmpty || ordering.lteq(elem, after.head)){
+      before.reverse ++ (elem :: after)
+    } else
+      insert(elem, after.head :: before, after.tail)
   }
 
 }
@@ -240,21 +283,7 @@ object ListProblems extends App {
   val list = 1 :: 2 :: 3 :: 1 :: 2 :: 3 :: 1 :: 2 :: 3 :: 1 :: 2 :: 3 :: 1 :: 2 :: 3 :: 1 :: 2 :: 3 :: 1 :: 2 :: 3 :: RNil
   val simple = 1 :: 2 :: 3 :: RNil
 
-  def insert[S](elem: S, list: RList[S])(implicit ordering: Ordering[S]): RList[S] = {
-    @tailrec
-    def loop(left: RList[S], result: RList[S]): RList[S] = {
-      left match {
-        case h :: t =>
-          if(ordering.compare(elem, h) < 0 ) {
-            (elem :: t)
-          } else {
-            loop(t, h :: result)
-          }
-        case RNil => elem :: result
-      }
-    }
-    loop(list, RNil).reverse
-  }
+
   //println(list(-1))
   //println(list.length)
   //println(list.reverse)
@@ -265,7 +294,10 @@ object ListProblems extends App {
   //println(simple.duplicateEach(3))
   //println(( 0:: simple).rotate(2))
   //println(unsorted.insertionSort(Ordering.Int))
-  println(insert(3, 1::RNil)(Ordering.Int))
-  println(insert(2, 1::3::RNil)(Ordering.Int))
+  //println(insert(3, 1::RNil)(Ordering.Int))
+  //((1::3::2::30::4::RNil).insertionSort(Ordering.Int))
   //println(unsorted.insertionSort(Ordering.Int))
+  println((2::5::2::1::3::RNil).mergeSort(Ordering.Int))
+
+  List(1,2,3).sorted
 }

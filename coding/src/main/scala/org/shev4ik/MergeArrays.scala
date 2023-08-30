@@ -10,7 +10,7 @@ object MergeArrays extends App {
   println(a.toList)
 
   def merge(a: Array[Int], m: Int, b: Array[Int], n: Int): Unit = {
-    var i = m -1
+    var i = m - 1
     var j = n - 1
 
     var pointer = m+n -1
