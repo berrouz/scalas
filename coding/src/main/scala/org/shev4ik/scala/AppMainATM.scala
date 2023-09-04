@@ -15,10 +15,9 @@ object AppMainATM extends App {
     override def eat(t: Grass): Unit = ???
   }
 
-
   val cow = new Cow
 
   val animal: Animal = cow
 
-  //animal.eat(new Food {})
+  // animal.eat(new Food {})
 }

@@ -7,7 +7,7 @@ object MagnetApp extends App {
     def handle(t: I): Result
   }
 
-  trait Aux[A, B]{
+  trait Aux[A, B] {
     type Out = B
   }
 
@@ -17,16 +17,15 @@ object MagnetApp extends App {
     override def handle(t: Option[Int]): Option[Int] = ???
   }
 
+  def hello[I, O](arg: I)(implicit aux: Aux[I, O], handler: Handle[I, O]): handler.Result =
+    handler.handle(arg)
 
-  def hello[I, O](arg: I)(implicit aux: Aux[I, O], handler: Handle[I, O]): handler.Result = handler.handle(arg)
-
-
-  trait Primary {}
-  trait Secondary{}
+  trait Primary   {}
+  trait Secondary {}
 
   sealed trait Fees
 
-  case class BillingFees() extends Fees
+  case class BillingFees()      extends Fees
   case class SplitBillingFees() extends Fees
 
   sealed trait MagnetProvider {
@@ -36,33 +35,35 @@ object MagnetApp extends App {
     def provide(fees: Fees)(implicit p: CpayEventProvider[Provider, Fees]): String = p.provide(fees)
   }
 
-  implicit def primaryProvider(primary: Primary)= new MagnetProvider {
+  implicit def primaryProvider(primary: Primary) = new MagnetProvider {
     override type Provider = Primary
-    override type Fees = BillingFees
-    override def provide(fees: BillingFees)(implicit p: CpayEventProvider[Primary, BillingFees]): String = p.provide(fees)
+    override type Fees     = BillingFees
+    override def provide(fees: BillingFees)(implicit
+        p: CpayEventProvider[Primary, BillingFees]
+    ): String = p.provide(fees)
   }
 
   implicit def secondaryProvider(secondary: Secondary) = new MagnetProvider {
     override type Provider = Secondary
-    override type Fees = BillingFees
-    override def provide(fees: Fees)(implicit p: CpayEventProvider[Provider, Fees]): String = p.provide(fees)
+    override type Fees     = BillingFees
+    override def provide(fees: Fees)(implicit p: CpayEventProvider[Provider, Fees]): String =
+      p.provide(fees)
 
   }
-  //def magnetProvider(magnet: MagnetProvider)= magnet.provide()
+  // def magnetProvider(magnet: MagnetProvider)= magnet.provide()
 
-
-
-  trait CpayEventProvider[P, F]{
+  trait CpayEventProvider[P, F] {
     def provide(fees: F): String = ???
   }
-  implicit val pp: CpayEventProvider[Primary, BillingFees] = new CpayEventProvider[Primary, BillingFees] {
-    def provide(fees: Fees): String = ???
-  }
-  class SecondaryProvider(){
+  implicit val pp: CpayEventProvider[Primary, BillingFees] =
+    new CpayEventProvider[Primary, BillingFees] {
+      def provide(fees: Fees): String = ???
+    }
+  class SecondaryProvider() {
     def provide(): String = ???
   }
 
-  //magnetProvider(new Primary{}).provide(BillingFees())
-  //hello(Option(1))
-  //hello(Option(1))
+  // magnetProvider(new Primary{}).provide(BillingFees())
+  // hello(Option(1))
+  // hello(Option(1))
 }

@@ -5,7 +5,7 @@ object FindNumberOfElements extends App {
     def inner(l: List[Int], sum: Int): Int = {
       l match {
         case _ :: t ⇒ inner(t, sum + 1)
-        case Nil ⇒ sum
+        case Nil    ⇒ sum
       }
     }
     inner(l, 0)

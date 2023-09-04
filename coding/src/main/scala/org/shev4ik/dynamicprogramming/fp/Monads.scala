@@ -2,7 +2,6 @@ package org.shev4ik.dynamicprogramming.fp
 
 object Monads extends App {
 
-
   implicit val e: Execute[String] = ExecImpl
 
   def doSome[A: Execute](s: A): A = {
@@ -11,25 +10,19 @@ object Monads extends App {
 
   println(doSome("running"))
 
+  case class Box[A](val a: A) {
 
-
-  case class Box[A](val a: A){
-
-    def map[B](implicit ev: A<:< Option[B]): B = {
+    def map[B](implicit ev: A <:< Option[B]): B = {
       a match {
         case Some(x) => a.get
-        case _ => throw new OutOfMemoryError("")
+        case _       => throw new OutOfMemoryError("")
       }
     }
   }
 
   println(Box(Some(2)).map)
 
-
-
-
 }
-
 
 object ExecImpl extends Execute[String] {
   override def run(a: String): String = a

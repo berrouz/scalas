@@ -2,24 +2,23 @@ package org.shev4ik.advanced.scala2
 
 object TypeClazz extends App {
 
-  trait Eq[T]{
+  trait Eq[T] {
     def apply(a: T, b: T): Boolean
   }
 
-  implicit class EqOps[T](a: T){
+  implicit class EqOps[T](a: T) {
     def eqa(b: T)(implicit eq: Eq[T]): Boolean = eq(a, b)
   }
 
-  implicit object EqString extends Eq[String]{
+  implicit object EqString extends Eq[String] {
     override def apply(a: String, b: String): Boolean = a == b
   }
 
   println("a".eqa("b"))
 
   trait Req
-  case class Primary() extends Req
+  case class Primary()   extends Req
   case class Secondary() extends Req
-
 
   trait Aux[T, R] {
     type OutType <: Context
@@ -29,7 +28,7 @@ object TypeClazz extends App {
 
   trait Context
 
-  trait Printer[R, T]{
+  trait Printer[R, T] {
     def print(t: R): String
   }
 
@@ -46,7 +45,6 @@ object TypeClazz extends App {
   def handle[T, R](req: T)(implicit aux: Aux[T, R], context: Printer[T, R]) = {
     aux.getMember(req)
   }
-
 
   handle(Primary())
 }

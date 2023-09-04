@@ -4,7 +4,7 @@ object OrderingPathDependent extends App {
 
   trait Comparator[T] {
     def ordering: Ordering[T]
-    def compare(a: T, b: T): Int = ordering.compare(a,b)
+    def compare(a: T, b: T): Int = ordering.compare(a, b)
   }
 
   object IntComparator extends Comparator[Int] {

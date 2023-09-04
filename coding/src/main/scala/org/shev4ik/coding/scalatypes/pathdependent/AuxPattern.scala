@@ -23,12 +23,12 @@ object AuxPattern extends App {
     def body(b: B): String
   }
 
-  implicit def fs = new Foo[String]{
+  implicit def fs = new Foo[String] {
     type B = Boolean
     def body(b: B): String = b.toString
   }
 
-  implicit def generalF[T]() = new Foo[T]{
+  implicit def generalF[T]() = new Foo[T] {
     type B = T
     def body(b: B): String = b.toString
   }

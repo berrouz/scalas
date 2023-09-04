@@ -43,10 +43,10 @@ object web {
 }
 
 class Crawler(
-               http: Http[Future],
-               parseLinks: String => List[Url],
-               result: Promise[Map[Host, Int]]
-             ) extends Actor {
+    http: Http[Future],
+    parseLinks: String => List[Url],
+    result: Promise[Map[Host, Int]]
+) extends Actor {
 
   var referenceCount: Map[Host, Int] = Map[Host, Int]()
 
@@ -75,12 +75,13 @@ class Crawler(
   }
 
   override def receive: Receive = {
-    //case Start(start) => crawlUrl(start)
+    // case Start(start) => crawlUrl(start)
     case CrawlResult(url, links) =>
       inProgress -= url
       links.foreach { link =>
         crawlUrl(link)
-        referenceCount = referenceCount.updated(link.host, referenceCount.getOrElse(link.host, 0) + 1)
+        referenceCount =
+          referenceCount.updated(link.host, referenceCount.getOrElse(link.host, 0) + 1)
       }
       if (inProgress.isEmpty) {
         result.success(referenceCount)
@@ -89,10 +90,9 @@ class Crawler(
   }
 }
 
-
-class Worker(http: Http[Future],
-             parseLinks: String => List[Url],
-             master: ActorRef) extends Actor with ActorLogging {
+class Worker(http: Http[Future], parseLinks: String => List[Url], master: ActorRef)
+    extends Actor
+    with ActorLogging {
   var urlsPending: Vector[Url] = Vector.empty
 
   var getInProgress = false

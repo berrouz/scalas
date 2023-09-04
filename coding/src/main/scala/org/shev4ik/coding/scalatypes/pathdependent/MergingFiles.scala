@@ -10,7 +10,7 @@ object MergingFiles extends App {
   sealed trait MergeStrategy {
     type T
 
-    def body(s:T): String
+    def body(s: T): String
   }
   object MergeStrategy {
     case object Single extends MergeStrategy {
@@ -27,7 +27,7 @@ object MergingFiles extends App {
     mergeStrategy.body(m)
   }
 
-  val list: immutable.List[Int] = List(1,2)
+  val list: immutable.List[Int] = List(1, 2)
 
   merge(list, MergeStrategy.Multiple)(1)
   merge(list, MergeStrategy.Single)("1")

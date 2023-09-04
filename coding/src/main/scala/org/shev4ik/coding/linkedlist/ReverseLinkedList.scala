@@ -12,7 +12,7 @@ object ReverseLinkedList extends App {
     @tailrec
     def inner(l: List[Int], r: List[Int]): List[Int] = {
       l match {
-        case Nil ⇒ r
+        case Nil       ⇒ r
         case h :: tail ⇒ inner(tail, h +: r)
       }
     }

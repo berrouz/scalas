@@ -29,7 +29,7 @@ object SelectionSort extends App {
       l match {
         case Nil ⇒ result
         case list: List[Any] ⇒
-          val m = list.min
+          val m      = list.min
           val (h, t) = list.span(_ != m)
           inner(h ++ t.tail, result :+ m)
       }

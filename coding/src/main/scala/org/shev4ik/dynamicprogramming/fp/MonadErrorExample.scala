@@ -10,7 +10,5 @@ object MonadErrorExample extends App {
     else M.raiseError(ParseException("Could not parse JSON String"))
 }
 
-
-
 case class ParseException(str: String) extends Throwable
 case class Json()

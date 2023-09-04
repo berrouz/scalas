@@ -2,17 +2,16 @@ package org.shev4ik.coding.scalatypes
 
 object Capitals extends App {
 
-
   trait Country
 
-  class France extends Country
+  class France  extends Country
   class Ukraine extends Country
-  class Poland extends Country
+  class Poland  extends Country
 
   trait City
-  class Paris extends City
+  class Paris  extends City
   class Warsaw extends City
-  class Kiev extends City
+  class Kiev   extends City
   trait HasCapital[T <: Country] {
     type C
     def capital: C
@@ -28,7 +27,7 @@ object Capitals extends App {
   }
   implicit val capitalUkraine = new HasCapital[Ukraine] {
     override type C = Kiev
-    override def capital: Kiev  = new Kiev
+    override def capital: Kiev = new Kiev
   }
 
   def lookup[T <: Country](implicit ic: HasCapital[T]): ic.C = {
@@ -36,5 +35,5 @@ object Capitals extends App {
   }
 
   val a: Paris = lookup[France]
-  val b: Kiev = lookup[Ukraine]
+  val b: Kiev  = lookup[Ukraine]
 }

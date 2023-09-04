@@ -7,9 +7,9 @@ object RemoveElement extends App {
     var goodIndex = 0
 
     for (i <- nums.indices) {
-      if (nums(i) != `val`){
+      if (nums(i) != `val`) {
         nums(goodIndex) = nums(i)
-        goodIndex+=1
+        goodIndex += 1
       }
     }
     goodIndex

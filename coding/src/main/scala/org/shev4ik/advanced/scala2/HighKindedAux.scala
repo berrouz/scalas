@@ -5,7 +5,6 @@ import scala.util.Try
 
 object HighKindedAux extends App {
 
-
   trait Printable[T, R[S <: T]] {
     def print(): String
   }

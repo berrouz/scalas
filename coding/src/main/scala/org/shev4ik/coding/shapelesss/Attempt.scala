@@ -6,7 +6,6 @@ import shapeless.ops.hlist.ZipWithKeys
 
 object Attempt extends App {
 
-
   import shapeless._
 
   case class User(name: String, city: String, age: Int)
@@ -15,13 +14,11 @@ object Attempt extends App {
 
   val keys = Keys[genUser.Repr].apply().toList.map(_.name)
 
-
   import shapeless.ops.hlist._
   class GetByType {
-    def apply[V, Repr <: HList, KeysRepr <: HList, ValuesRepr <: HList, FieldsRepr <: HList](value: V)
-                            (implicit gen: LabelledGeneric.Aux[V, Repr],
-                             fields: Fields.Aux[Repr, ValuesRepr],
-                            ) =
+    def apply[V, Repr <: HList, KeysRepr <: HList, ValuesRepr <: HList, FieldsRepr <: HList](
+        value: V
+    )(implicit gen: LabelledGeneric.Aux[V, Repr], fields: Fields.Aux[Repr, ValuesRepr]) =
       gen.to(value).fields
   }
 
@@ -30,8 +27,6 @@ object Attempt extends App {
   def getByType = new GetByType
 
   println(getByType.apply(user))
-
-
 
   object generics {
     import shapeless.{HList, ::, HNil}

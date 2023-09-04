@@ -14,7 +14,7 @@ object ScalaEqualsHashcode extends App {
     override def equals(obj: Any): Boolean = {
       obj match {
         case p: Person ⇒ firstName == p.firstName && lastName == p.lastName
-        case _ ⇒ false
+        case _         ⇒ false
       }
     }
 
@@ -22,7 +22,7 @@ object ScalaEqualsHashcode extends App {
     override def hashCode(): Int = 31
   }
   map += (Person("peter", "johnson") → "Moscow")
-  map += (Person("peter", "beck") → "Paris")
+  map += (Person("peter", "beck")    → "Paris")
 
   Some(map.get(Person("peter", "beck"))) foreach println
   Some(map.get(Person("peter", "johnson"))) foreach println

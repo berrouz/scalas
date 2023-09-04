@@ -9,9 +9,8 @@ object PathDependentType extends App {
     def apply(tr: T[R]): Out
   }
 
-
   object Unwrap {
-    implicit def list[S]: Unwrap[List, S] = new  Unwrap[List, S] {
+    implicit def list[S]: Unwrap[List, S] = new Unwrap[List, S] {
       type Out = S
       def apply(tr: List[Out]): Out = tr.head
     }
@@ -44,9 +43,8 @@ object PathDependentType extends App {
       def apply(tr: List[Int]): Int = tr.max
     }
   }
-  def extractorX[T[_], R](in: T[R])(
-    implicit
-    unwrap: Unwrap[T, R]
+  def extractorX[T[_], R](in: T[R])(implicit
+      unwrap: Unwrap[T, R]
   ): unwrap.Out = {
     unwrap(in)
   }
@@ -55,20 +53,18 @@ object PathDependentType extends App {
     list.head
   }
 
-/*  println(extractorX(List(2)))
+  /*  println(extractorX(List(2)))
   println(extractorX(List("a")))
   println(extractorX(List('a')))
   println(ex(List('a')))
   println(ex(List(1)))*/
 
-  def extractor[T[_], R, Out](in: T[R])(
-    implicit
-    unwrap: UnwrapAux[T, R, Out],
-    withPrinter: Printer[Out]
+  def extractor[T[_], R, Out](in: T[R])(implicit
+      unwrap: UnwrapAux[T, R, Out],
+      withPrinter: Printer[Out]
   ): (String, Out) = {
     withPrinter(unwrap(in))
   }
-
 
   println(extractor(List(1)))
 

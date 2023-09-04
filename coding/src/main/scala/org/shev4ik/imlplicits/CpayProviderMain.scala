@@ -1,7 +1,3 @@
 package org.shev4ik.imlplicits
 
-object CpayProviderMain extends App {
-
-
-
-}
+object CpayProviderMain extends App {}

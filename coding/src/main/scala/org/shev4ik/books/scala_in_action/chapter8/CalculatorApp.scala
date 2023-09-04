@@ -6,30 +6,26 @@ object CalculatorApp extends App {
     def initialize: C
     def close(s: C): Unit
     def calculate(productId: String): Double = {
-      val s = initialize
+      val s     = initialize
       val price = calculate(s, productId)
       close(s)
       price
     }
 
     def calculate(s: C, productId: String): Double
-   }
-
+  }
 
   trait DbConnection {
     def connect: String = "connect"
   }
 
-
-  new {} with Calculator [DbConnection]{
+  new {} with Calculator[DbConnection] {
     override def initialize: DbConnection = ???
 
     override def close(s: DbConnection): Unit = s.connect
 
     override def calculate(s: DbConnection, productId: String): Double = ???
   }
-
-
 
   trait Strategy {
     type T
@@ -49,10 +45,8 @@ object CalculatorApp extends App {
     override def make(t: Int): Unit = print(t)
   }
 
-  val gold: Strategy = new GoldStrategy()
+  val gold: Strategy   = new GoldStrategy()
   val silver: Strategy = new SilverStrategy()
-
-
 
   trait Processor {
     def find(): Int
@@ -75,8 +69,7 @@ object CalculatorApp extends App {
     override def process(i: Int): String = i.toString
   }
 
-
-  val primary: Processor = new PrimaryProcessor
+  val primary: Processor   = new PrimaryProcessor
   val secondary: Processor = new SecondaryProcessor
 
   primary.run
@@ -87,7 +80,7 @@ object CalculatorApp extends App {
 
   def getF(b: Box): b.S = ???
 
-   val s: String = getF(new Box { type S = String})
-   val i: Int = getF(new Box { type S = Int})
+  val s: String = getF(new Box { type S = String })
+  val i: Int    = getF(new Box { type S = Int })
 
 }

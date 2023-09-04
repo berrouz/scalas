@@ -7,9 +7,8 @@ object DynamicDispatch extends App {
   }
 
   class ReceiverImpl extends Receiver {
-    override def call (p: Parent): Unit = println(p.name)
+    override def call(p: Parent): Unit = println(p.name)
   }
-
 
   trait Parent {
     def name: String = "parent"
@@ -18,7 +17,6 @@ object DynamicDispatch extends App {
   class Child extends Parent {
     override def name: String = "child"
   }
-
 
   val receiver: Receiver = new ReceiverImpl
 

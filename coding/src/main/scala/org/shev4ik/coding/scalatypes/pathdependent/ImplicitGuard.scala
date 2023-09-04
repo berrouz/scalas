@@ -6,27 +6,25 @@ object ImplicitGuard extends App {
 
   implicit val ec: ExecutionContext = ExecutionContext.global
 
-  trait IsFuture[F]{
+  trait IsFuture[F] {
     type T
 
     def apply(f: F): Future[T]
   }
 
-  object IsFuture{
+  object IsFuture {
     def apply[F](implicit isf: IsFuture[F]) = isf
 
-    implicit def mk[A] = new IsFuture[Future[A]]{
+    implicit def mk[A] = new IsFuture[Future[A]] {
       type T = A
 
       def apply(f: Future[A]): Future[A] = f
     }
   }
 
-
-  def logResult[T](thing: T)
-                      (implicit isf: IsFuture[T]): Future[isf.T] =
+  def logResult[T](thing: T)(implicit isf: IsFuture[T]): Future[isf.T] =
     isf(thing) map { x =>
-       println(s"I got a result of $x")
+      println(s"I got a result of $x")
       x
     }
 
@@ -36,7 +34,6 @@ object ImplicitGuard extends App {
     override def apply(f: List[String]): Future[T] = Future.successful(f)
   }
 
-
-  //val res: Future[List[String]] = logResult(List(""))
+  // val res: Future[List[String]] = logResult(List(""))
 
 }

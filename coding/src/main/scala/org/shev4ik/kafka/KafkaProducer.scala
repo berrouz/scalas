@@ -22,8 +22,7 @@ object KafkaProducer extends zio.ZIOAppDefault {
       )
     )
 
-
- /* private val consumerB: ZLayer[MyConsumerB, Throwable, Consumer] = for {
+  /* private val consumerB: ZLayer[MyConsumerB, Throwable, Consumer] = for {
     c <- ZLayer.environment[MyConsumerB]
     cc <- ZLayer.scoped(
       Consumer.make(
@@ -32,33 +31,52 @@ object KafkaProducer extends zio.ZIOAppDefault {
       )
     )
   } yield cc
-*/
+   */
   def run = {
     val p: ZStream[Producer, Throwable, Nothing] =
       ZStream
         .repeatZIO(Clock.currentDateTime)
         .schedule(Schedule.spaced(1.second))
         .map(time => {
-          val record = new ProducerRecord(KAFKA_TOPIC, time.getMinute%3, time.getMinute, s"Message ${new Date().toInstant}")
+          val record = new ProducerRecord(
+            KAFKA_TOPIC,
+            time.getMinute % 3,
+            time.getMinute,
+            s"Message ${new Date().toInstant}"
+          )
 
           record
-        }
-        )
+        })
         .via(Producer.produceAll(Serde.int, Serde.string))
         .drain
 
     val c1: ZStream[Any, Throwable, Nothing] =
-      Consumer.subscribeAnd(Subscription.manual(KAFKA_TOPIC -> 1)).plainStream(Serde.int, Serde.string).tap(record => {
-        Console.printLine(s"Consumer 1 ${record.value} partition ${record.partition}")
-      }).map(_.offset).mapZIO(_.commit)
-        .provideSomeLayer(ZLayer.scoped(Consumer.make(ConsumerSettings(BOOSTRAP_SERVERS).withGroupId("group1")))).drain
-
+      Consumer
+        .subscribeAnd(Subscription.manual(KAFKA_TOPIC -> 1))
+        .plainStream(Serde.int, Serde.string)
+        .tap(record => {
+          Console.printLine(s"Consumer 1 ${record.value} partition ${record.partition}")
+        })
+        .map(_.offset)
+        .mapZIO(_.commit)
+        .provideSomeLayer(
+          ZLayer.scoped(Consumer.make(ConsumerSettings(BOOSTRAP_SERVERS).withGroupId("group1")))
+        )
+        .drain
 
     val c2: ZStream[Any, Throwable, Nothing] =
-      Consumer.subscribeAnd(Subscription.manual(KAFKA_TOPIC -> 2, KAFKA_TOPIC -> 0)).plainStream(Serde.int, Serde.string).tap(record => {
-        Console.printLine(s"Consumer 2 ${record.value} partition ${record.partition}")
-      }).map(_.offset).mapZIO(_.commit)
-        .provideSomeLayer(ZLayer.scoped(Consumer.make(ConsumerSettings(BOOSTRAP_SERVERS).withGroupId("group2")))).drain
+      Consumer
+        .subscribeAnd(Subscription.manual(KAFKA_TOPIC -> 2, KAFKA_TOPIC -> 0))
+        .plainStream(Serde.int, Serde.string)
+        .tap(record => {
+          Console.printLine(s"Consumer 2 ${record.value} partition ${record.partition}")
+        })
+        .map(_.offset)
+        .mapZIO(_.commit)
+        .provideSomeLayer(
+          ZLayer.scoped(Consumer.make(ConsumerSettings(BOOSTRAP_SERVERS).withGroupId("group2")))
+        )
+        .drain
 
     (c1 merge c2).runDrain.provide(producer)
   }

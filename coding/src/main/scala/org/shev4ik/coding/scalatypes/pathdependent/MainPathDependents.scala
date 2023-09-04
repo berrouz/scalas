@@ -6,12 +6,12 @@ object MainPathDependents extends App {
 
   sealed trait Nat
   class Succ[N <: Nat] extends Nat
-  object Zero extends Nat
-  type Zero = Zero.type
-  type One = Succ[Zero]
-  type Two = Succ[One]
+  object Zero          extends Nat
+  type Zero  = Zero.type
+  type One   = Succ[Zero]
+  type Two   = Succ[One]
   type Three = Succ[Two]
-  type Four = Succ[Three]
+  type Four  = Succ[Three]
 
   sealed trait Shape {
     type CornerCount <: Nat
@@ -27,20 +27,19 @@ object MainPathDependents extends App {
     override type CornerCount = Four
   }
 
-  type Circle = Circle.type
+  type Circle   = Circle.type
   type Triangle = Triangle.type
-  type Square = Square.type
+  type Square   = Square.type
 
   implicitly[Circle#CornerCount =:= Zero]
   implicitly[Triangle#CornerCount =:= Three]
-  implicitly[Square# CornerCount =:= Four]
-
+  implicitly[Square#CornerCount =:= Four]
 
   trait CornerCount[In <: Shape] {
     type Out <: Nat
   }
 
-  implicit val circleCornerCount= new CornerCount[Circle] {
+  implicit val circleCornerCount = new CornerCount[Circle] {
     override type Out = Zero
   }
 
@@ -52,28 +51,25 @@ object MainPathDependents extends App {
     override type Out = Four
   }
 
-  implicitly[CornerCount[Circle] { type Out = Zero } ]
-  implicitly[CornerCount[Triangle] { type Out = Three } ]
-  implicitly[CornerCount[Square] { type Out = Four } ]
+  implicitly[CornerCount[Circle] { type Out = Zero }]
+  implicitly[CornerCount[Triangle] { type Out = Three }]
+  implicitly[CornerCount[Square] { type Out = Four }]
 
-
-  trait Inner[F]{
+  trait Inner[F] {
     type T
   }
 
-
-  object Inner{
+  object Inner {
     def apply[F](implicit inner: Inner[F]): Inner[F] = inner
 
     implicit def mk[F[_], A]: Inner[F[A]] {
       type T = A
-    } = new Inner[F[A]]{
+    } = new Inner[F[A]] {
       type T = A
     }
   }
 
-  def hello[F[_], T](a: T)(implicit inner: Inner[F[T]]): inner.T= a.asInstanceOf[inner.T]
-
+  def hello[F[_], T](a: T)(implicit inner: Inner[F[T]]): inner.T = a.asInstanceOf[inner.T]
 
   hello(1)
   hello("a")

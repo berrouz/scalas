@@ -4,8 +4,7 @@ object ForComprehensionFlat extends App {
 
   for {
     (age, name) <- either
-   } yield ()
-
+  } yield ()
 
   def either: Option[(Int, String)] = {
     Some((1, "1"))

@@ -3,7 +3,7 @@ package org.shev4ik.algorithms.graphs
 object DepthFirstSearch extends App {
 
   val map = Map(
-    'a' -> List('b','c'),
+    'a' -> List('b', 'c'),
     'b' -> List('d'),
     'c' -> List('e'),
     'd' -> List('f'),
@@ -14,7 +14,7 @@ object DepthFirstSearch extends App {
   def printer(chars: List[Char]): Unit = {
     if (chars.nonEmpty) {
       print(chars.head)
-      for (c <- map(chars.head)){
+      for (c <- map(chars.head)) {
         printer(List(c))
       }
     }

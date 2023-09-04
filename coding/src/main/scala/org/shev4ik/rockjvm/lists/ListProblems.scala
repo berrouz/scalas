@@ -2,7 +2,6 @@ package org.shev4ik.rockjvm.lists
 
 import scala.annotation.tailrec
 
-
 sealed abstract class RList[+T] {
   def head: T
 
@@ -108,7 +107,7 @@ case class ::[+T](override val head: T, override val tail: RList[T]) extends RLi
     @tailrec
     def lengthRecursive(list: RList[T], counter: Int): Int = {
       list match {
-        case RNil => counter
+        case RNil      => counter
         case _ :: tail => lengthRecursive(list.tail, counter + 1)
       }
     }
@@ -120,7 +119,7 @@ case class ::[+T](override val head: T, override val tail: RList[T]) extends RLi
     @tailrec
     def reverseRecursive(remain: RList[T], acc: RList[T]): RList[T] = {
       remain match {
-        case RNil => acc
+        case RNil      => acc
         case h :: tail => reverseRecursive(tail, h :: acc)
       }
     }
@@ -132,7 +131,7 @@ case class ::[+T](override val head: T, override val tail: RList[T]) extends RLi
     @tailrec
     def rec(another: RList[S], acc: RList[S]): RList[S] = {
       another match {
-        case RNil => acc
+        case RNil      => acc
         case h :: tail => rec(tail, h :: acc)
       }
     }
@@ -144,7 +143,7 @@ case class ::[+T](override val head: T, override val tail: RList[T]) extends RLi
     @tailrec
     def rec(rest: RList[T], result: RList[S]): RList[S] = {
       rest match {
-        case RNil => result
+        case RNil   => result
         case h :: t => rec(t, f(h) :: result)
       }
     }
@@ -156,7 +155,7 @@ case class ::[+T](override val head: T, override val tail: RList[T]) extends RLi
     @tailrec
     def inner(rest: RList[T], result: RList[S]): RList[S] = {
       rest match {
-        case RNil => result
+        case RNil   => result
         case h :: t => inner(t, f(h) ++ result)
       }
     }
@@ -196,10 +195,11 @@ case class ::[+T](override val head: T, override val tail: RList[T]) extends RLi
     def loop(rest: RList[T], counter: Int, left: RList[T], right: RList[T]): RList[T] = {
       rest match {
         case RNil => left ++ right
-        case h :: t => if (counter < k) {
-          loop(t, counter + 1, h :: left, right)
-        } else
-          loop(t, counter + 1, left, h :: right)
+        case h :: t =>
+          if (counter < k) {
+            loop(t, counter + 1, h :: left, right)
+          } else
+            loop(t, counter + 1, left, h :: right)
       }
     }
 
@@ -210,7 +210,7 @@ case class ::[+T](override val head: T, override val tail: RList[T]) extends RLi
     @tailrec
     def loop(rest: RList[S], result: RList[S]): RList[S] = {
       rest match {
-        case RNil => result
+        case RNil         => result
         case head :: tail => loop(tail, insert(head, RNil, result))
       }
     }
@@ -220,23 +220,22 @@ case class ::[+T](override val head: T, override val tail: RList[T]) extends RLi
 
   def splitAt(n: Int): (RList[T], RList[T]) = {
     def inner(first: RList[T], second: RList[T], counter: Int): (RList[T], RList[T]) = {
-      if (counter == n){
+      if (counter == n) {
         (first, second)
       } else {
-        inner(second.head ::first, second.tail, counter +1)
+        inner(second.head :: first, second.tail, counter + 1)
       }
     }
     inner(RNil, this, 0)
   }
-
 
   override def mergeSort[S >: T](implicit ordering: Ordering[S]): RList[S] = {
     def merge(listA: RList[S], listB: RList[S]): RList[S] = {
       (listA, listB) match {
         case (RNil, b) => b
         case (a, RNil) => a
-        case (headA::tailA, headB::tailB) =>
-          if (ordering.lt(headA, headB)){
+        case (headA :: tailA, headB :: tailB) =>
+          if (ordering.lt(headA, headB)) {
             headA :: merge(tailA, listB)
           } else {
             headB :: merge(tailB, listA)
@@ -244,8 +243,8 @@ case class ::[+T](override val head: T, override val tail: RList[T]) extends RLi
       }
     }
 
-    val size = this.length/2
-    if (size == 0){
+    val size = this.length / 2
+    if (size == 0) {
       this
     } else {
       val (a, b) = splitAt(size)
@@ -257,16 +256,17 @@ case class ::[+T](override val head: T, override val tail: RList[T]) extends RLi
     ???
   }
 
-
   /*
-      *   3 [1,2,4] []
-      *     [2,4] [1]
-      *     [4]   [1,2]
-      *     []   [1,2,3,4]
-      * */
+   *   3 [1,2,4] []
+   *     [2,4] [1]
+   *     [4]   [1,2]
+   *     []   [1,2,3,4]
+   * */
   @tailrec
-  final def insert[S](elem: S, before: RList[S], after: RList[S])(implicit ordering: Ordering[S]): RList[S] = {
-    if (after.isEmpty || ordering.lteq(elem, after.head)){
+  final def insert[S](elem: S, before: RList[S], after: RList[S])(implicit
+      ordering: Ordering[S]
+  ): RList[S] = {
+    if (after.isEmpty || ordering.lteq(elem, after.head)) {
       before.reverse ++ (elem :: after)
     } else
       insert(elem, after.head :: before, after.tail)
@@ -276,28 +276,28 @@ case class ::[+T](override val head: T, override val tail: RList[T]) extends RLi
 
 // 3 -> 1 -> 2
 /*
-*  1 -> 2   RList(3)
-*  2    RList(1::3::2)
-* */
+ *  1 -> 2   RList(3)
+ *  2    RList(1::3::2)
+ * */
 object ListProblems extends App {
-  val list = 1 :: 2 :: 3 :: 1 :: 2 :: 3 :: 1 :: 2 :: 3 :: 1 :: 2 :: 3 :: 1 :: 2 :: 3 :: 1 :: 2 :: 3 :: 1 :: 2 :: 3 :: RNil
+  val list =
+    1 :: 2 :: 3 :: 1 :: 2 :: 3 :: 1 :: 2 :: 3 :: 1 :: 2 :: 3 :: 1 :: 2 :: 3 :: 1 :: 2 :: 3 :: 1 :: 2 :: 3 :: RNil
   val simple = 1 :: 2 :: 3 :: RNil
 
+  // println(list(-1))
+  // println(list.length)
+  // println(list.reverse)
+  // println(list.++(4::5::6::RNil))
+  // println(list.map(_*2))
+  // println(list.flatMap(s => s::2::3::RNil))
+  // println(list.rle)
+  // println(simple.duplicateEach(3))
+  // println(( 0:: simple).rotate(2))
+  // println(unsorted.insertionSort(Ordering.Int))
+  // println(insert(3, 1::RNil)(Ordering.Int))
+  // ((1::3::2::30::4::RNil).insertionSort(Ordering.Int))
+  // println(unsorted.insertionSort(Ordering.Int))
+  println((2 :: 5 :: 2 :: 1 :: 3 :: RNil).mergeSort(Ordering.Int))
 
-  //println(list(-1))
-  //println(list.length)
-  //println(list.reverse)
-  //println(list.++(4::5::6::RNil))
-  //println(list.map(_*2))
-  //println(list.flatMap(s => s::2::3::RNil))
-  //println(list.rle)
-  //println(simple.duplicateEach(3))
-  //println(( 0:: simple).rotate(2))
-  //println(unsorted.insertionSort(Ordering.Int))
-  //println(insert(3, 1::RNil)(Ordering.Int))
-  //((1::3::2::30::4::RNil).insertionSort(Ordering.Int))
-  //println(unsorted.insertionSort(Ordering.Int))
-  println((2::5::2::1::3::RNil).mergeSort(Ordering.Int))
-
-  List(1,2,3).sorted
+  List(1, 2, 3).sorted
 }

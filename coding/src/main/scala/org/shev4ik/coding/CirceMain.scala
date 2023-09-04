@@ -13,11 +13,11 @@ object CirceMain extends App {
 
 }
 
-
-
 trait HasJsonCodecFor[A] {
   implicit val config: Configuration = Configuration.default.withSnakeCaseMemberNames
-  implicit def decoder(implicit d: shapeless.Lazy[ConfiguredDecoder[A]]): Decoder[A] = deriveConfiguredDecoder
-  implicit def encoder(implicit d: shapeless.Lazy[ConfiguredAsObjectEncoder[A]]): Encoder[A] = deriveConfiguredEncoder
+  implicit def decoder(implicit d: shapeless.Lazy[ConfiguredDecoder[A]]): Decoder[A] =
+    deriveConfiguredDecoder
+  implicit def encoder(implicit d: shapeless.Lazy[ConfiguredAsObjectEncoder[A]]): Encoder[A] =
+    deriveConfiguredEncoder
 
 }

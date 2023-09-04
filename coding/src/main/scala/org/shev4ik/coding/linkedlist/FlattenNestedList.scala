@@ -8,8 +8,8 @@ object FlattenNestedList extends App {
     def inner(l: List[_], result: List[Any]): List[Any] = {
       l match {
         case (a: List[_]) :: tail ⇒ inner(tail, result ++ inner(a, Nil))
-        case a :: tail ⇒ inner(tail, result :+ a)
-        case Nil ⇒ result
+        case a :: tail            ⇒ inner(tail, result :+ a)
+        case Nil                  ⇒ result
       }
     }
     inner(l, Nil)

@@ -4,7 +4,6 @@ import scala.language.{higherKinds, implicitConversions}
 
 object CpayIssue extends App {
 
-
   trait Unwrap[T[_], R] {
     type Out
 
@@ -36,7 +35,7 @@ object CpayIssue extends App {
     }
   }
 
-  trait Printer[T]{
+  trait Printer[T] {
     def apply(t: T): (String, T)
   }
 
@@ -64,12 +63,10 @@ object CpayIssue extends App {
     }
   }
 
-  def extractor[T[_], R, Out](in: T[R])(implicit
-    unwrap: UnwrapAux[T, R, Out]): Out = {
+  def extractor[T[_], R, Out](in: T[R])(implicit unwrap: UnwrapAux[T, R, Out]): Out = {
     unwrap(in)
   }
 
   println(extractor(List(1)))
-
 
 }

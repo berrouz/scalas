@@ -14,12 +14,12 @@ object Dynamic extends App {
           val r = inner(nn - 1) + inner(nn - 2)
           map.put(nn, r) match {
             case Some(_) =>
-            case None =>
+            case None    =>
           }
           r
       })
     }
-    inner(n-1)
+    inner(n - 1)
   }
 
   println(fib(50))

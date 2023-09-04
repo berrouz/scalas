@@ -2,7 +2,6 @@ package org.shev4ik.coding.scalatypes.abstracttypes
 
 object AbstractTypeMembersMain extends App {
 
-
   trait Vehicle {
     type T
     def vehicleModel(vmt: T): T

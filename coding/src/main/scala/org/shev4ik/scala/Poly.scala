@@ -11,7 +11,7 @@ object Poly extends App {
 
   trait Billing
 
-  case class PersonBilling() extends Billing
+  case class PersonBilling()             extends Billing
   case class AnimalBilling(name: String) extends Billing
 
   case class Person(billing: PersonBilling) extends Generic {
@@ -48,7 +48,7 @@ object Poly extends App {
     def apply[T <: Generic](implicit ev: Has[T]): Has[T] = ev
   }
 
-  //val billingA: AnimalBilling = program(things.head)
+  // val billingA: AnimalBilling = program(things.head)
   val billingB: PersonBilling = program(Person(billing = PersonBilling()))
 
   def program[T <: Generic: Has](t: T): T#B = Has[T].billingData(t)

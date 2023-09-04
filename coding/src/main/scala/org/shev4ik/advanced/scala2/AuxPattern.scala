@@ -13,7 +13,6 @@ object AuxPattern extends App {
 
   case class Patron(member: Member) extends MemberType
 
-
   abstract class AcmeCard(member: Member, levelName: String)
 
   case class Silver(member: Member) extends AcmeCard(member, "silver")
@@ -32,12 +31,11 @@ object AuxPattern extends App {
       override def getDiscount: Double = fn()
     }
 
-    //implicit instances of Discounted for each Membership Card  implicit val silverCardDiscounted: Discounted[Silver] = createDiscounted( () => 5.0)
-    implicit val goldCardDiscounted: Discounted[Gold] = createDiscounted(() => 10.0)
+    // implicit instances of Discounted for each Membership Card  implicit val silverCardDiscounted: Discounted[Silver] = createDiscounted( () => 5.0)
+    implicit val goldCardDiscounted: Discounted[Gold]         = createDiscounted(() => 10.0)
     implicit val platinumCardDiscounted: Discounted[Platinum] = createDiscounted(() => 15.0)
-    implicit val silverCardDiscounted: Discounted[Silver] = createDiscounted(() => 5.0)
+    implicit val silverCardDiscounted: Discounted[Silver]     = createDiscounted(() => 5.0)
   }
-
 
   trait AcmeCardPrinter[T] {
     def print(t: T): String
@@ -52,9 +50,10 @@ object AuxPattern extends App {
     implicit val goldAcmeCardPrinter: AcmeCardPrinter[Gold] = new AcmeCardPrinter[Gold] {
       override def print(t: Gold): String = "AcmeCard® Gold Delight™"
     }
-    implicit val platinumAcmeCardPrinter: AcmeCardPrinter[Platinum] = new AcmeCardPrinter[Platinum] {
-      override def print(t: Platinum): String = "AcmeCard® Platinum Awesomeness™"
-    }
+    implicit val platinumAcmeCardPrinter: AcmeCardPrinter[Platinum] =
+      new AcmeCardPrinter[Platinum] {
+        override def print(t: Platinum): String = "AcmeCard® Platinum Awesomeness™"
+      }
   }
 
   trait UpgradeRequirementCheck[T] {
@@ -73,11 +72,13 @@ object AuxPattern extends App {
       }
     }
 
-    implicit val firstTimerUpgrade: UpgradeRequirementCheck[Silver] = createUpgradeEligibility(() => 10000L)
-    implicit val frequentShopperUpgrade: UpgradeRequirementCheck[Gold] = createUpgradeEligibility(() => 100000L)
-    implicit val patronDUpgrade: UpgradeRequirementCheck[Platinum] = createUpgradeEligibility(() => 0L)
+    implicit val firstTimerUpgrade: UpgradeRequirementCheck[Silver] =
+      createUpgradeEligibility(() => 10000L)
+    implicit val frequentShopperUpgrade: UpgradeRequirementCheck[Gold] =
+      createUpgradeEligibility(() => 100000L)
+    implicit val patronDUpgrade: UpgradeRequirementCheck[Platinum] =
+      createUpgradeEligibility(() => 0L)
   }
-
 
   trait Privilege[T] {
     type OutType
@@ -86,7 +87,7 @@ object AuxPattern extends App {
   }
 
   object Privilege {
-    type Aux[T, R] = Privilege[T] {type OutType = R}
+    type Aux[T, R] = Privilege[T] { type OutType = R }
 
     def apply[T](implicit privilege: Privilege[T]): Aux[T, privilege.OutType] = privilege
 
@@ -95,11 +96,12 @@ object AuxPattern extends App {
 
       override def getMember(t: FirstTimer): OutType = Silver(t.member)
     }
-    implicit def materializeGoldCard[R]: Aux[FrequentShopper, Gold] = new Privilege[FrequentShopper] {
-      type OutType = Gold
+    implicit def materializeGoldCard[R]: Aux[FrequentShopper, Gold] =
+      new Privilege[FrequentShopper] {
+        type OutType = Gold
 
-      override def getMember(t: FrequentShopper): OutType = Gold(t.member)
-    }
+        override def getMember(t: FrequentShopper): OutType = Gold(t.member)
+      }
 
     implicit def materializePlatinumCard[R]: Aux[Patron, Platinum] = new Privilege[Patron] {
       type OutType = Platinum
@@ -108,32 +110,31 @@ object AuxPattern extends App {
     }
   }
 
-  val johnDoe = FirstTimer(Member("123456", "John Doe"))
+  val johnDoe   = FirstTimer(Member("123456", "John Doe"))
   val johnDoeFq = FrequentShopper(Member("123456", "John Doe"))
-  val janeDoe = FrequentShopper(Member("567890", "Jane Doe", 50500))
+  val janeDoe   = FrequentShopper(Member("567890", "Jane Doe", 50500))
 
-  //A sample function to get a mapper to give a AcmeCard of type R for a member of type T
+  // A sample function to get a mapper to give a AcmeCard of type R for a member of type T
   def getPrivilegeType[T, R](member: T)(implicit privilege: Privilege.Aux[T, R]) = privilege
 
   getPrivilegeType(janeDoe)
   getPrivilegeType(johnDoe)
 
-
   def getMembershipInformation[T <: MemberType, R](memberType: T)(implicit
-                                                                  privileged: Privilege.Aux[T, R],
-                                                                  printer: AcmeCardPrinter[R],
-                                                                  upgradeEligibility: UpgradeRequirementCheck[R],
-                                                                  discounted: Discounted[R]): String = {
+      privileged: Privilege.Aux[T, R],
+      printer: AcmeCardPrinter[R],
+      upgradeEligibility: UpgradeRequirementCheck[R],
+      discounted: Discounted[R]
+  ): String = {
     val pointsToUpgrade = upgradeEligibility.pointsToUpgrade(memberType.member.points)
-    val discount = discounted.getDiscount
-    val cardName = printer.print(privileged.getMember(memberType))
-    val memberName = memberType.member.name
-      s"Dear $memberName\n" +
+    val discount        = discounted.getDiscount
+    val cardName        = printer.print(privileged.getMember(memberType))
+    val memberName      = memberType.member.name
+    s"Dear $memberName\n" +
       s"You are proud owner of $cardName\n" +
       s"We have applied special discount of $discount%\n" +
       s"Psst! you need $pointsToUpgrade points for next upgrade!"
   }
-
 
   import AcmeCardPrinter._
   import Privilege._

@@ -8,7 +8,7 @@ object FindLastButOneElement extends App {
     def inner(list: List[Int]): Int = {
       list match {
         case prev :: _ :: Nil ⇒ prev
-        case _ :: tail ⇒ inner(tail)
+        case _ :: tail        ⇒ inner(tail)
       }
     }
     inner(list)

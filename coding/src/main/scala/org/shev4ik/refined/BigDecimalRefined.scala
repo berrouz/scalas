@@ -7,6 +7,4 @@ import shapeless.syntax.singleton.mkSingletonOps
 
 import scala.language.experimental._
 
-object BigDecimalRefined extends App {
-
-}
+object BigDecimalRefined extends App {}

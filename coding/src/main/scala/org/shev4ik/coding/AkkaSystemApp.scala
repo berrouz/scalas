@@ -12,7 +12,7 @@ import scala.concurrent.duration._
 object AkkaSystemApp extends App {
   implicit val system: ActorSystem = ActorSystem()
 
-  val actor = system.actorOf(SuperActor.props)
+  val actor                     = system.actorOf(SuperActor.props)
   implicit val timeout: Timeout = 2.seconds
   actor ! Start
 }
@@ -20,7 +20,7 @@ object AkkaSystemApp extends App {
 class SuperActor extends Actor {
   val dateActor: ActorRef = context.actorOf(Props[CurrentDateActor])
   override def receive: Receive = {
-    case Start ⇒ dateActor ! GetDate
+    case Start             ⇒ dateActor ! GetDate
     case CurrentDate(date) ⇒ println(s"Current date is $date")
   }
 }
@@ -29,8 +29,8 @@ object SuperActor {
 }
 
 class CurrentDateActor extends Actor {
-  override def receive: Receive = {
-    case GetDate ⇒ sender() ! CurrentDate(new Date())
+  override def receive: Receive = { case GetDate ⇒
+    sender() ! CurrentDate(new Date())
   }
 }
 

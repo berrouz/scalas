@@ -8,12 +8,12 @@ object Dependent extends App {
   }
 
   object IntTemplateBuilder extends TemplateBuilder {
-    override type TTT = TemplateType { type I = String}
+    override type TTT = TemplateType { type I = String }
     override def body(a: String): String = a
   }
 
   object StringTemplateBuilder extends TemplateBuilder {
-    override type TTT = TemplateType { type I = Int}
+    override type TTT = TemplateType { type I = Int }
     override def body(a: Int): String = a.toString
   }
 
@@ -28,7 +28,7 @@ object Dependent extends App {
   object EmailTemplate extends TemplateType {
     type I = Int
   }
-/*
+  /*
   def getBuilder[I](builder: TemplateType { type I = I})(t: builder.I): String = {
     builder
   }
@@ -38,11 +38,9 @@ object Dependent extends App {
 
   case class Temp(s: String)
 
-
-
   /*
-  *
-  * sealed trait MergeStrategy {
+   *
+   * sealed trait MergeStrategy {
     type Output[_]
   }
   object MergeStrategy {
@@ -66,19 +64,17 @@ object Dependent extends App {
   merge(list, MergeStrategy.Single){ file: Int => 1}
   //merge(List(1,2), MergeStrategy.Multiple){ files => ???}*/
 
-
   trait BillingInfo
 
   class Strategy {
     type S <: BillingInfo
   }
 
-  object UsualStrategy extends Strategy {type S = Billing}
-  object SplitStrategy extends Strategy {type S = SplitBilling}
+  object UsualStrategy extends Strategy { type S = Billing      }
+  object SplitStrategy extends Strategy { type S = SplitBilling }
 
-  case class Billing(fee: Int) extends BillingInfo
+  case class Billing(fee: Int)             extends BillingInfo
   case class SplitBilling(fees: List[Int]) extends BillingInfo
-
 
   def handle(s: Strategy)(f: Int => s.S): s.S = {
     f(1)

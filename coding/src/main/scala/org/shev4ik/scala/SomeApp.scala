@@ -2,12 +2,11 @@ package org.shev4ik.scala
 
 object SomeApp extends App {
 
-
-  trait Hello[A]{
+  trait Hello[A] {
     def print(a: A): Any
   }
 
-  class SuperHello extends Hello[String]{
+  class SuperHello extends Hello[String] {
     override def print(a: String): String = a
   }
 

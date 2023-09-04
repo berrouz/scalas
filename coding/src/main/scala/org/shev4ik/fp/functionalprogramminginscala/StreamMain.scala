@@ -29,13 +29,13 @@ object StreamMain extends App {
 
   case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A] {
     override def toList: List[A] = t() match {
-      case Empty => h()::Nil
-      case Cons(head,t) => h()::head()::t().toList
+      case Empty         => h() :: Nil
+      case Cons(head, t) => h() :: head() :: t().toList
     }
 
     override def take(n: Int): Stream[A] = {
       if (n > 0)
-        Stream.cons[A](h(), t().take(n-1))
+        Stream.cons[A](h(), t().take(n - 1))
       else
         Stream.empty[A]
     }
@@ -53,10 +53,9 @@ object StreamMain extends App {
 
     def foldRight[B](z: => B)(f: (A, => B) => B): B =
       this match {
-        case Cons(h,t) => f(h(), t().foldRight(z)(f))
+        case Cons(h, t) => f(h(), t().foldRight(z)(f))
       }
   }
-
 
   object Stream {
 
@@ -70,7 +69,6 @@ object StreamMain extends App {
 
     def apply[A](as: A*): Stream[A] = if (as.isEmpty) empty else cons(as.head, apply(as.tail: _*))
   }
-
 
   println(Stream.cons(1, Stream.cons(2, Stream.cons(3, Empty))).takeWhile(x => x != 3).toList)
 }

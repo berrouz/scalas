@@ -2,7 +2,7 @@ package org.shev4ik.catseffects
 
 import cats.effect.Sync
 
-object Asyncer extends App{
+object Asyncer extends App {
   import cats.effect.{IO, Async}
 
   import scala.concurrent.ExecutionContext.Implicits.global
@@ -21,7 +21,6 @@ object Asyncer extends App{
     }
 
   ioa.unsafeRunSync()
-
 
   Sync[IO].delay(IO(println("Heello"))).unsafeRunSync()
 }

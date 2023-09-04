@@ -2,20 +2,18 @@ package org.shev4ik.tranzzo
 
 import java.util.UUID
 
-object TransformationTypeclass extends App{
-
+object TransformationTypeclass extends App {
 
   type Command = String
 
-
   case class BillingEvent()
-  trait Billing[T]{
+  trait Billing[T] {
     def cpayId: UUID
     def posId: UUID
     def orderId: String
   }
 
-  implicit val billingEvent: Billing[BillingEvent] = new Billing[BillingEvent]{
+  implicit val billingEvent: Billing[BillingEvent] = new Billing[BillingEvent] {
     override def cpayId: UUID = ???
 
     override def posId: UUID = ???
@@ -23,12 +21,11 @@ object TransformationTypeclass extends App{
     override def orderId: Command = ???
   }
 
-
   trait Quality
 
   case class SuperQuality() extends Quality
-  case class LowQuality() extends Quality
-  class SuperClass(){
+  case class LowQuality()   extends Quality
+  class SuperClass() {
     def calc(quality: SuperQuality): Unit = {
       println("high")
     }
@@ -39,8 +36,7 @@ object TransformationTypeclass extends App{
 
   }
 
-
-  val clazz  = new SuperClass
+  val clazz = new SuperClass
 
   clazz.calc(SuperQuality())
   clazz.calc(LowQuality())
