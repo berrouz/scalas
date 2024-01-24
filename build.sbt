@@ -11,8 +11,10 @@ lazy val coding = project.settings(libraryDependencies ++= dependencies)
 lazy val avro4s = project.settings(libraryDependencies ++= avroDeps)
 lazy val magnoliaKafka = project.settings(libraryDependencies ++= magnoliaDeps)
 lazy val player = project.settings(libraryDependencies ++= playDeps).enablePlugins(PlayScala)
+lazy val zio = project.settings(libraryDependencies ++= zioDeps).enablePlugins(PlayScala)
 
-lazy val root = Project(id = "scalas", base = file(".")).aggregate(coding, player)
+lazy val root = Project(id = "scalas", base = file("."))
+  .aggregate(coding, player, zio)
 
 val CirceVersion = "0.13.0"
 val ShapelessVersion = "2.3.3"
@@ -28,7 +30,7 @@ val circeLiteral = "io.circe" %% "circe-literal" % CirceVersion
 val shapeless = "com.chuusai" %% "shapeless" % ShapelessVersion
 val catsEffect = "org.typelevel" %% "cats-effect" % CatsEffectVersion
 
-val zio = "dev.zio" %% "zio" % Versions.zio
+val zioDev = "dev.zio" %% "zio" % Versions.zio
 val zioTest = "dev.zio" %% "zio-test" % Versions.zio % "test"
 val zioTestSbt = "dev.zio" %% "zio-test-sbt" % Versions.zio % "test"
 val `zioInteropCats` = "dev.zio" %% "zio-interop-cats" % Versions.zioInteropCats
@@ -56,6 +58,8 @@ val postgresql           = "org.postgresql"      % "postgresql"              % "
 val playJson          = "com.typesafe.play"     %% "play-json"             % "2.6.14"
 
 val magnolia = "com.softwaremill.magnolia1_2" %% "magnolia" % "1.1.3"
+val sttp = "com.softwaremill.sttp.client3" %% "core" % "3.5.2"
+val httpClient = "com.softwaremill.sttp.client3" %% "httpclient-backend" % "3.5.2"
 
 lazy val playDeps: Seq[ModuleID] = Seq(
   playSlick, playSlickEvo, slick, postgresql, playJson
@@ -63,6 +67,20 @@ lazy val playDeps: Seq[ModuleID] = Seq(
 
 lazy val avroDeps: Seq[ModuleID] = Seq(
   avro
+)
+
+lazy val zioDeps: Seq[ModuleID] = Seq(
+  zioDev,
+  zioTest,
+  zioTestSbt,
+  zioMacros,
+  `zioInteropCats`,
+  zioConfig,
+  zioConfigMagnolia,
+  zioConfigTypesafe,
+  zioConfigRefined,
+  zioConfigYaml,
+  zioConfigGen,
 )
 
 lazy val magnoliaDeps: Seq[ModuleID] = Seq(
@@ -77,7 +95,7 @@ lazy val dependencies: Seq[ModuleID] = Seq(
   circeLiteral,
   shapeless,
   catsEffect,
-  zio,
+  zioDev,
   zioTest,
   zioTestSbt,
   zioMacros,
@@ -95,7 +113,9 @@ lazy val dependencies: Seq[ModuleID] = Seq(
   zioStreams,
   zioKafka,
   zioJson,
-  magnolia
+  magnolia,
+  sttp,
+  httpClient
 )
 
 

@@ -10,7 +10,7 @@ object Monads extends App {
 
   println(doSome("running"))
 
-  case class Box[A](val a: A) {
+  case class Box[A](a: A) {
 
     def map[B](implicit ev: A <:< Option[B]): B = {
       a match {

@@ -6,7 +6,8 @@ object BottomUpRodCutting extends App {
 
   def rod(n: Int, res: Seq[Int]): (Int, Seq[Int]) = {
     if (n == 0) return (0, Nil)
-    var sum                    = Int.MinValue
+    var sum = Int.MinValue
+
     var tuple: (Int, Seq[Int]) = null
     1.to(n)
       .foreach(i => {

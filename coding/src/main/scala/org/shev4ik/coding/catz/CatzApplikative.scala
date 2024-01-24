@@ -3,8 +3,10 @@ package org.shev4ik.coding.catz
 import scala.language.higherKinds
 
 object CatzApplikative extends App {
-  type A[T]
 
-  type B[T] <: A[T]
+  type Animal
 
+  type Cat <: Animal
+
+  implicitly[List[Cat] <:< List[Animal]]
 }
