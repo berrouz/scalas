@@ -5,5 +5,5 @@ object LargestNumber extends App {
   def largestNumber(number: Seq[Int]): String = {
     number.map(_.toString).sorted.map(_.toInt).mkString(",")
   }
-  println(largestNumber(Seq(3,30,34,5,9)))
+  println(largestNumber(Seq(3, 30, 34, 5, 9)))
 }

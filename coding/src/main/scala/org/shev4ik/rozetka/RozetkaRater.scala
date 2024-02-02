@@ -8,9 +8,8 @@ import scala.util.Random
 object RozetkaRater extends App {
   val backend = HttpURLConnectionBackend()
 
-
   val dateEnd = LocalDateTime.now.plusHours(5)
-  while(LocalDateTime.now.toEpochSecond(ZoneOffset.UTC) < dateEnd.toEpochSecond(ZoneOffset.UTC)){
+  while (LocalDateTime.now.toEpochSecond(ZoneOffset.UTC) < dateEnd.toEpochSecond(ZoneOffset.UTC)) {
     basicRequest
       .get(uri"https://rozetka.com.ua/361734021/p361734021/")
       .send(backend)

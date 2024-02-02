@@ -5,7 +5,7 @@ import scala.annotation.tailrec
 object CountChars extends App {
 
   def countChars(s: String): Map[Char, Int] = {
-    s.toCharArray.groupBy(identity).map{ case (c, s) =>
+    s.toCharArray.groupBy(identity).map { case (c, s) =>
       (c, s.length)
     }
   }
@@ -14,8 +14,8 @@ object CountChars extends App {
     @tailrec
     def loop(chars: List[Char], acc: Map[Char, Int]): Map[Char, Int] = {
       chars match {
-        case Nil => acc
-        case h::t => loop(t, acc + ((h, acc.getOrElse(h, 0) + 1)))
+        case Nil    => acc
+        case h :: t => loop(t, acc + ((h, acc.getOrElse(h, 0) + 1)))
       }
     }
     loop(s.toCharArray.toList, Map.empty)
@@ -30,14 +30,13 @@ object CountChars extends App {
   }
 }
 
-
 object ParenthesisProblem extends App {
   def hasValidParentheses(string: String): Boolean = {
     def loop(t: List[Char], stack: List[Char]): Boolean = {
       (t, stack) match {
-        case ('('::tail, _) => loop(tail, ')'::stack)
-        case (h::tail, stackHead::stackTail) => h == stackHead && loop(tail, stackTail)
-        case _ => t.isEmpty && stack.isEmpty
+        case ('(' :: tail, _)                    => loop(tail, ')' :: stack)
+        case (h :: tail, stackHead :: stackTail) => h == stackHead && loop(tail, stackTail)
+        case _                                   => t.isEmpty && stack.isEmpty
       }
     }
     loop(string.toList, Nil)
