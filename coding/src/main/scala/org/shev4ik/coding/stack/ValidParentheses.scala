@@ -1,7 +1,7 @@
 package org.shev4ik.coding.stack
 
-import org.scalatest.MustMatchers
-import org.scalatest.WordSpec
+import org.scalatest.matchers.must.Matchers.convertToAnyMustWrapper
+import org.scalatest.wordspec.AnyWordSpec
 
 import scala.annotation.tailrec
 
@@ -23,7 +23,7 @@ object ValidParentheses {
   }
 }
 
-class TestsSpec extends WordSpec with MustMatchers {
+class TestsSpec extends AnyWordSpec {
   "tests" should {
     "valid" in {
       ValidParentheses.isValid("()") mustBe true
