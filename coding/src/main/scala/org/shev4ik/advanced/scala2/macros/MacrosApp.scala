@@ -6,6 +6,7 @@ import scala.language.experimental.macros
 
 object MacrosApp {
 
+  // comment
   def printType[T](x: T): Unit = macro printTypeImpl[T]
 
 
