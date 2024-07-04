@@ -63,7 +63,7 @@ object MagnetApp extends App {
     def provide(): String = ???
   }
 
-  // magnetProvider(new Primary{}).provide(BillingFees())
+  //magnetProvider(new Primary{}).provide(BillingFees())
   // hello(Option(1))
   // hello(Option(1))
 }

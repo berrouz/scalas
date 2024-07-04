@@ -1,20 +1,19 @@
 package org.shev4ik.kafka
 
-import cats.implicits.catsStdShowForString
 import org.apache.kafka.clients.producer.ProducerRecord
-import zio.Config.LocalDateTime
 import zio._
-import zio.interop.console.cats.putStr
 import zio.kafka.consumer.{Consumer, ConsumerSettings, Subscription}
 import zio.kafka.producer.{Producer, ProducerSettings}
 import zio.kafka.serde.Serde
 import zio.stream.ZStream
 
-import java.time.LocalDate
 import java.util.Date
+
 object KafkaProducer extends zio.ZIOAppDefault {
-  private val BOOSTRAP_SERVERS = List("localhost:9092")
+  private val BOOSTRAP_SERVERS = List("localhost:29092")
   private val KAFKA_TOPIC      = "streaming-hello"
+  private val groupId = "group1"
+
   private val producer: ZLayer[Any, Throwable, Producer] =
     ZLayer.scoped(
       Producer.make(
@@ -22,62 +21,39 @@ object KafkaProducer extends zio.ZIOAppDefault {
       )
     )
 
-  /* private val consumerB: ZLayer[MyConsumerB, Throwable, Consumer] = for {
-    c <- ZLayer.environment[MyConsumerB]
-    cc <- ZLayer.scoped(
-      Consumer.make(
-        ConsumerSettings(BOOSTRAP_SERVERS)
-          .withGroupId(c.get.group)
-      )
-    )
-  } yield cc
-   */
-  def run = {
+  private val consumer: ZLayer[Any, Throwable, Consumer] =
+    ZLayer.scoped(Consumer.make(ConsumerSettings(BOOSTRAP_SERVERS).withGroupId(groupId)))
+
+  def run: ZIO[Any, Throwable, Unit] = {
     val p: ZStream[Producer, Throwable, Nothing] =
       ZStream
         .repeatZIO(Clock.currentDateTime)
-        .schedule(Schedule.spaced(1.second))
+        .schedule(Schedule.spaced(5.second))
         .map(time => {
+          val date = new Date()
           val record = new ProducerRecord(
             KAFKA_TOPIC,
-            time.getMinute % 3,
-            time.getMinute,
-            s"Message ${new Date().toInstant}"
+            date.getTime,
+            s"Message ${date.toInstant}"
           )
-
           record
         })
-        .via(Producer.produceAll(Serde.int, Serde.string))
+        .via(Producer.produceAll(Serde.long, Serde.string))
         .drain
 
-    val c1: ZStream[Any, Throwable, Nothing] =
-      Consumer
-        .subscribeAnd(Subscription.manual(KAFKA_TOPIC -> 1))
-        .plainStream(Serde.int, Serde.string)
+    val c: ZStream[Any, Throwable, Nothing] =
+      Consumer.plainStream(Subscription.topics(KAFKA_TOPIC), Serde.long, Serde.string)
         .tap(record => {
           Console.printLine(s"Consumer 1 ${record.value} partition ${record.partition}")
         })
         .map(_.offset)
         .mapZIO(_.commit)
         .provideSomeLayer(
-          ZLayer.scoped(Consumer.make(ConsumerSettings(BOOSTRAP_SERVERS).withGroupId("group1")))
+          ZLayer.scoped(Consumer.make(ConsumerSettings(BOOSTRAP_SERVERS).withGroupId(groupId)))
         )
         .drain
 
-    val c2: ZStream[Any, Throwable, Nothing] =
-      Consumer
-        .subscribeAnd(Subscription.manual(KAFKA_TOPIC -> 2, KAFKA_TOPIC -> 0))
-        .plainStream(Serde.int, Serde.string)
-        .tap(record => {
-          Console.printLine(s"Consumer 2 ${record.value} partition ${record.partition}")
-        })
-        .map(_.offset)
-        .mapZIO(_.commit)
-        .provideSomeLayer(
-          ZLayer.scoped(Consumer.make(ConsumerSettings(BOOSTRAP_SERVERS).withGroupId("group2")))
-        )
-        .drain
 
-    (c1 merge c2).runDrain.provide(producer)
+    (p merge c).runDrain.provide(producer)
   }
 }

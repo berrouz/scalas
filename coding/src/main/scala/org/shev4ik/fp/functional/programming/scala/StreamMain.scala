@@ -1,6 +1,4 @@
-package org.shev4ik.fp.functionalprogramminginscala
-
-import scala.annotation.tailrec
+package org.shev4ik.fp.functional.programming.scala
 
 object StreamMain extends App {
 

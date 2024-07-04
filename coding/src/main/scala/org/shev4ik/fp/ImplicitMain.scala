@@ -1,6 +1,6 @@
 package org.shev4ik.fp
 
-import scala.language.implicitConversions
+import scala.language.{higherKinds, implicitConversions}
 
 object ImplicitMain extends App {
 
@@ -21,4 +21,22 @@ object ImplicitMain extends App {
 
   handle(Book("a"))
 
+
+  val f = for {
+    a <- MyFlatMappable("hello")
+    b <- MyFlatMappable("world")
+  } yield (a,b)
+
+  println(f)
+
+
+  case class MyFlatMappable[A](book: A){
+    def flatMap[B](a: A => MyFlatMappable[B]): MyFlatMappable[B] = {
+      a(book)
+    }
+
+    def map[B](a: A => B): MyFlatMappable[B] = {
+      MyFlatMappable(a(book))
+    }
+  }
 }

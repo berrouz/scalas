@@ -12,6 +12,9 @@ object AuxPattern extends App {
   case class FrequentShopper(member: Member) extends MemberType
 
   case class Patron(member: Member) extends MemberType
+  // -->
+  // "1" @to --> "+++"
+  // "2" @to --> "+++"
 
   abstract class AcmeCard(member: Member, levelName: String)
 
@@ -80,7 +83,7 @@ object AuxPattern extends App {
       createUpgradeEligibility(() => 0L)
   }
 
-  trait Privilege[T] {
+  trait   Privilege[T] {
     type OutType
 
     def getMember(t: T): OutType

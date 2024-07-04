@@ -9,15 +9,13 @@ object HighKindedAux extends App {
     def print(): String
   }
 
-  implicit val a: Printable[Int, Option] = new Printable[Int, Option] {
-    override def print(): String = "option"
-  }
+  implicit val a: Printable[Int, Option] = () => "option"
 
-  implicit val b: Printable[String, Option] = new Printable[String, Option] {
-    override def print(): String = "option"
-  }
+  implicit val b: Printable[String, Option] = () => "option"
 
-  def print[T](s: Option[T])(implicit printable: Printable[T, Option]) = printable.print()
+  def print[T](s: Option[T])(implicit printable: Printable[T, Option]) =
+    printable.print()
 
   print(Some(1))
+  print(Some("a"))
 }

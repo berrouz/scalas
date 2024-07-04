@@ -13,6 +13,6 @@ object InheritanceImplicits extends App {
 
   def hello[T](t: T)(implicit b: Base[T]) = ???
 
-  // hello(new Thing{})
+  hello(new Auto{})
 
 }

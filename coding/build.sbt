@@ -6,5 +6,6 @@ libraryDependencies ++= {
   Seq(
     "org.scalatest" %% "scalatest" % "3.2.18",
     "com.typesafe.akka" %% "akka-actor" % "2.5.22",
-    "com.chuusai" %% "shapeless" % "2.3.3")
+    "com.chuusai" %% "shapeless" % "2.3.3",
+    "org.junit.jupiter" % "junit-jupiter-engine" % "5.9.2")
 }

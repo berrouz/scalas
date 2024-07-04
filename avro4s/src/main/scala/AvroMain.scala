@@ -11,5 +11,5 @@ object AvroMain extends App {
   os.flush()
   os.close()
 
-  
+
 }

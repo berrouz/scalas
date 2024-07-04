@@ -10,12 +10,14 @@ object DepthFirstSearch extends App {
     'e' -> List.empty,
     'f' -> List.empty
   )
-  printer(List('a'))
-  def printer(chars: List[Char]): Unit = {
-    if (chars.nonEmpty) {
-      print(chars.head)
-      for (c <- map(chars.head)) {
-        printer(List(c))
+  dfs('a')
+  def dfs(char: Char): Unit = {
+    val stack = scala.collection.mutable.Stack[Char](char)
+    while (stack.nonEmpty) {
+      val elem = stack.pop()
+      println(elem)
+      for (c <- map(elem)) {
+        stack.push(c)
       }
     }
   }
