@@ -5,4 +5,6 @@ object MacrosAppUsage extends App {
 
   MacrosApp.printType(42)
   MacrosApp.printType("HelloWorld")
+
+
 }
