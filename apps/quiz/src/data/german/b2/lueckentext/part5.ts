@@ -1,0 +1,600 @@
+import { Question } from '@/types/question';
+
+const questions: Question[] = [
+  {
+    "language": "german", "id": "b2-lueckentext-p5-005",
+    "level": "b2",
+    "category": "Lückentext",
+    "subcategory": "Präpositionen",
+    "question": "Ergänze: 'Sie fährt ___ dem Fahrrad zur Arbeit.'",
+    "options": [
+      "für",
+      "an",
+      "auf",
+      "über"
+    ],
+    "correctAnswer": 2,
+    "explanation": "'Sich freuen auf' = Vorfreude (Zukunft).",
+    "grammarRule": "sich freuen auf + Akk.",
+    "tags": [
+      "lueckentext",
+      "präpositionen"
+    ]
+  },
+  {
+    "language": "german", "id": "b2-lueckentext-p5-008",
+    "level": "b2",
+    "category": "Lückentext",
+    "subcategory": "Nebensätze",
+    "question": "Ergänze: 'Ich komme ___ einer Stunde.'",
+    "options": [
+      "Während",
+      "Wenn",
+      "Als",
+      "Wann"
+    ],
+    "correctAnswer": 2,
+    "explanation": "'Als' für einmalige Vergangenheit.",
+    "grammarRule": "als vs. wenn",
+    "tags": [
+      "lueckentext",
+      "nebensätze"
+    ]
+  },
+  {
+    "language": "german", "id": "b2-lueckentext-p5-012",
+    "level": "b2",
+    "category": "Lückentext",
+    "subcategory": "Verben mit Dativ",
+    "question": "Ergänze: 'Er hat ___ Freude geholfen.'",
+    "options": [
+      "mich",
+      "ich",
+      "meiner",
+      "mir"
+    ],
+    "correctAnswer": 3,
+    "explanation": "'Helfen' verlangt den Dativ → mir.",
+    "grammarRule": "helfen + Dativ",
+    "tags": [
+      "lueckentext",
+      "verben mit dativ"
+    ]
+  },
+  {
+    "language": "german", "id": "b2-lueckentext-p5-013",
+    "level": "b2",
+    "category": "Lückentext",
+    "subcategory": "Präpositionen",
+    "question": "Ergänze: 'Sie hat ___ Versehen das falsche Buch mitgenommen.'",
+    "options": [
+      "in den",
+      "in",
+      "im",
+      "ins"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Wo? → Dativ: im (= in dem) Garten.",
+    "grammarRule": "Wechselpräposition + Dativ",
+    "tags": [
+      "lueckentext",
+      "präpositionen"
+    ]
+  },
+  {
+    "language": "german", "id": "b2-lueckentext-p5-019",
+    "level": "b2",
+    "category": "Lückentext",
+    "subcategory": "Präpositionen",
+    "question": "Ergänze: 'Ich verstehe das ___ Schwierigkeiten.'",
+    "options": [
+      "Seit",
+      "Nachdem",
+      "Bis",
+      "Während"
+    ],
+    "correctAnswer": 3,
+    "explanation": "'Während' + Genitiv (temporal).",
+    "grammarRule": "während + Genitiv",
+    "tags": [
+      "lueckentext",
+      "präpositionen"
+    ]
+  },
+  {
+    "language": "german", "id": "b2-lueckentext-p5-006",
+    "level": "b2",
+    "category": "Lückentext",
+    "subcategory": "Konjunktionen",
+    "question": "Ergänze: 'Er geht joggen, ___ er fit bleibt.'",
+    "options": ["weil", "damit", "obwohl", "sodass"],
+    "correctAnswer": 1,
+    "explanation": "'Damit' für Zweck/Absicht.",
+    "grammarRule": "damit + Finalsatz",
+    "tags": ["lueckentext", "konjunktionen"]
+  },
+  {
+    "language": "german", "id": "b2-lueckentext-p5-007",
+    "level": "b2",
+    "category": "Lückentext",
+    "subcategory": "Verben",
+    "question": "Ergänze: 'Er ___ gestern nach München geflogen.'",
+    "options": ["hat", "ist", "war", "wurde"],
+    "correctAnswer": 1,
+    "explanation": "Perfekt mit 'sein' bei 'fliegen' (Bewegungsverb).",
+    "grammarRule": "Perfekt mit sein bei Bewegungsverben",
+    "tags": ["lueckentext", "verben"]
+  },
+  {
+    "language": "german", "id": "b2-lueckentext-p5-009",
+    "level": "b2",
+    "category": "Lückentext",
+    "subcategory": "Artikel",
+    "question": "Ergänze: 'Wir helfen ___ Nachbarin mit dem Einkauf.'",
+    "options": ["die", "der", "den", "dem"],
+    "correctAnswer": 1,
+    "explanation": "'Helfen' + Dativ feminin: der Nachbarin.",
+    "grammarRule": "Dativ feminin",
+    "tags": ["lueckentext", "artikel"]
+  },
+  {
+    "language": "german", "id": "b2-lueckentext-p5-010",
+    "level": "b2",
+    "category": "Lückentext",
+    "subcategory": "Adjektive",
+    "question": "Ergänze: 'Das ist ein ___ Angebot.'",
+    "options": ["guter", "gutes", "gute", "gutem"],
+    "correctAnswer": 1,
+    "explanation": "Nominativ Neutrum mit unbestimmtem Artikel: gutes.",
+    "grammarRule": "Adjektivdeklination Nominativ Neutrum",
+    "tags": ["lueckentext", "adjektive"]
+  },
+  {
+    "language": "german", "id": "b2-lueckentext-p5-011",
+    "level": "b2",
+    "category": "Lückentext",
+    "subcategory": "Modalverben",
+    "question": "Ergänze: 'Er ___ seine Hausaufgaben machen.'",
+    "options": ["darf", "kann", "muss", "will"],
+    "correctAnswer": 2,
+    "explanation": "'Müssen' für Pflicht.",
+    "grammarRule": "müssen für Pflicht",
+    "tags": ["lueckentext", "modalverben"]
+  },
+  {
+    "language": "german", "id": "b2-lueckentext-p5-014",
+    "level": "b2",
+    "category": "Lückentext",
+    "subcategory": "Reflexivpronomen",
+    "question": "Ergänze: 'Er hat ___ ein neues Auto gekauft.'",
+    "options": ["sich", "ihm", "ihn", "sein"],
+    "correctAnswer": 0,
+    "explanation": "'Sich' als Dativ-Reflexivpronomen bei 'sich kaufen'.",
+    "grammarRule": "Reflexivpronomen Dativ",
+    "tags": ["lueckentext", "reflexivpronomen"]
+  },
+  {
+    "language": "german", "id": "b2-lueckentext-p5-015",
+    "level": "b2",
+    "category": "Lückentext",
+    "subcategory": "Passiv",
+    "question": "Ergänze: 'Die E-Mail ___ gestern geschickt.'",
+    "options": ["hat", "ist", "wird", "wurde"],
+    "correctAnswer": 3,
+    "explanation": "Passiv Präteritum: wurde geschickt.",
+    "grammarRule": "Vorgangspassiv Präteritum",
+    "tags": ["lueckentext", "passiv"]
+  },
+  {
+    "language": "german", "id": "b2-lueckentext-p5-016",
+    "level": "b2",
+    "category": "Lückentext",
+    "subcategory": "Relativsätze",
+    "question": "Ergänze: 'Die Schüler, ___ fleißig lernen, bestehen die Prüfung.'",
+    "options": ["der", "die", "den", "das"],
+    "correctAnswer": 1,
+    "explanation": "Nominativ Plural: die Schüler, die lernen.",
+    "grammarRule": "Relativpronomen Nominativ Plural",
+    "tags": ["lueckentext", "relativsätze"]
+  },
+  {
+    "language": "german", "id": "b2-lueckentext-p5-017",
+    "level": "b2",
+    "category": "Lückentext",
+    "subcategory": "Präpositionen",
+    "question": "Ergänze: 'Sie fährt ___ drei Wochen nach Spanien.'",
+    "options": ["seit", "in", "vor", "nach"],
+    "correctAnswer": 1,
+    "explanation": "'In' + Dativ für zukünftigen Zeitpunkt.",
+    "grammarRule": "in + Dativ temporal (Zukunft)",
+    "tags": ["lueckentext", "präpositionen"]
+  },
+  {
+    "language": "german", "id": "b2-lueckentext-p5-018",
+    "level": "b2",
+    "category": "Lückentext",
+    "subcategory": "Genitiv",
+    "question": "Ergänze: 'Die Farbe ___ Autos gefällt mir.'",
+    "options": ["dem", "des", "das", "den"],
+    "correctAnswer": 1,
+    "explanation": "Genitiv Neutrum: des Autos.",
+    "grammarRule": "Genitiv Neutrum",
+    "tags": ["lueckentext", "genitiv"]
+  },
+  {
+    "language": "german", "id": "b2-lueckentext-p5-020",
+    "level": "b2",
+    "category": "Lückentext",
+    "subcategory": "Konjunktiv II",
+    "question": "Ergänze: 'Ich ___ gern einen Kaffee.'",
+    "options": ["habe", "hätte", "hatte", "werde"],
+    "correctAnswer": 1,
+    "explanation": "'Hätte gern' für höfliche Wünsche.",
+    "grammarRule": "Konjunktiv II höflich",
+    "tags": ["lueckentext", "konjunktiv"]
+  },
+  {
+    "language": "german", "id": "b2-lueckentext-p5-021",
+    "level": "b2",
+    "category": "Lückentext",
+    "subcategory": "Nebensätze",
+    "question": "Ergänze: '___ es regnet, gehen wir trotzdem spazieren.'",
+    "options": ["Weil", "Obwohl", "Damit", "Sodass"],
+    "correctAnswer": 1,
+    "explanation": "'Obwohl' für Konzession/Widerspruch.",
+    "grammarRule": "obwohl + konzessiver Nebensatz",
+    "tags": ["lueckentext", "nebensätze"]
+  },
+  {
+    "language": "german", "id": "b2-lueckentext-p5-022",
+    "level": "b2",
+    "category": "Lückentext",
+    "subcategory": "Verben",
+    "question": "Ergänze: 'Sie hat beschlossen, nach Berlin ___.'",
+    "options": ["umziehen", "zu ziehen", "umzuziehen", "zieht"],
+    "correctAnswer": 2,
+    "explanation": "'Beschließen' + zu + Infinitiv. Trennbares Verb: umzuziehen.",
+    "grammarRule": "Infinitiv mit zu bei trennbaren Verben",
+    "tags": ["lueckentext", "verben"]
+  },
+  {
+    "language": "german", "id": "b2-lueckentext-p5-023",
+    "level": "b2",
+    "category": "Lückentext",
+    "subcategory": "Pronomen",
+    "question": "Ergänze: 'Das ist das Mädchen, ___ Vater Arzt ist.'",
+    "options": ["die", "der", "dessen", "deren"],
+    "correctAnswer": 2,
+    "explanation": "'Dessen' = Genitiv Neutrum (das Mädchen).",
+    "grammarRule": "Relativpronomen Genitiv Neutrum",
+    "tags": ["lueckentext", "relativsätze"]
+  },
+  {
+    "language": "german", "id": "b2-lueckentext-p5-024",
+    "level": "b2",
+    "category": "Lückentext",
+    "subcategory": "Präpositionen",
+    "question": "Ergänze: 'Er warnt mich ___ der Gefahr.'",
+    "options": ["über", "für", "von", "vor"],
+    "correctAnswer": 3,
+    "explanation": "'Warnen vor' + Dativ.",
+    "grammarRule": "warnen vor + Dat.",
+    "tags": ["lueckentext", "präpositionen"]
+  },
+  {
+    "language": "german", "id": "b2-lueckentext-p5-025",
+    "level": "b2",
+    "category": "Lückentext",
+    "subcategory": "Konjunktionen",
+    "question": "Ergänze: 'Er spricht ___ Deutsch ___ Englisch.'",
+    "options": ["nicht nur ... sondern auch", "weder ... noch", "entweder ... oder", "sowohl ... als auch"],
+    "correctAnswer": 3,
+    "explanation": "'Sowohl ... als auch' = beides.",
+    "grammarRule": "sowohl ... als auch",
+    "tags": ["lueckentext", "konjunktionen"]
+  },
+  {
+    "language": "german", "id": "b2-lueckentext-p5-026",
+    "level": "b2",
+    "category": "Lückentext",
+    "subcategory": "Verben mit Dativ",
+    "question": "Ergänze: 'Dieser Mantel ___ mir zu eng.'",
+    "options": ["hat", "macht", "ist", "wird"],
+    "correctAnswer": 2,
+    "explanation": "'Sein' + Dativ + Adjektiv.",
+    "grammarRule": "sein + Dativ + Adjektiv",
+    "tags": ["lueckentext", "verben mit dativ"]
+  },
+  {
+    "language": "german", "id": "b2-lueckentext-p5-027",
+    "level": "b2",
+    "category": "Lückentext",
+    "subcategory": "Adjektive",
+    "question": "Ergänze: 'Er ist der ___ Schüler der Klasse.'",
+    "options": ["besser", "beste", "guter", "besten"],
+    "correctAnswer": 1,
+    "explanation": "Superlativ mit bestimmtem Artikel: der beste Schüler.",
+    "grammarRule": "Superlativ + bestimmter Artikel",
+    "tags": ["lueckentext", "adjektive"]
+  },
+  {
+    "language": "german", "id": "b2-lueckentext-p5-028",
+    "level": "b2",
+    "category": "Lückentext",
+    "subcategory": "Verben",
+    "question": "Ergänze: 'Die Kinder ___ im See geschwommen.'",
+    "options": ["haben", "sind", "waren", "wurden"],
+    "correctAnswer": 1,
+    "explanation": "Perfekt mit 'sein' bei 'schwimmen' (Bewegungsverb).",
+    "grammarRule": "Perfekt mit sein",
+    "tags": ["lueckentext", "verben"]
+  },
+  {
+    "language": "german", "id": "b2-lueckentext-p5-029",
+    "level": "b2",
+    "category": "Lückentext",
+    "subcategory": "Präpositionen",
+    "question": "Ergänze: 'Er hat sich ___ den Fehler entschuldigt.'",
+    "options": ["über", "für", "an", "um"],
+    "correctAnswer": 1,
+    "explanation": "'Sich entschuldigen für' + Akkusativ.",
+    "grammarRule": "sich entschuldigen für + Akk.",
+    "tags": ["lueckentext", "präpositionen"]
+  },
+  {
+    "language": "german", "id": "b2-lueckentext-p5-030",
+    "level": "b2",
+    "category": "Lückentext",
+    "subcategory": "Nebensätze",
+    "question": "Ergänze: 'Er ging ins Bett, ___ er den Film gesehen hatte.'",
+    "options": ["bevor", "nachdem", "während", "sobald"],
+    "correctAnswer": 1,
+    "explanation": "'Nachdem' + Plusquamperfekt für Vorzeitigkeit.",
+    "grammarRule": "nachdem + Plusquamperfekt",
+    "tags": ["lueckentext", "nebensätze"]
+  },
+  {
+    "language": "german", "id": "b2-lueckentext-p5-031",
+    "level": "b2",
+    "category": "Lückentext",
+    "subcategory": "Artikel",
+    "question": "Ergänze: 'Ich habe ___ alten Freund getroffen.'",
+    "options": ["ein", "einen", "einem", "einer"],
+    "correctAnswer": 1,
+    "explanation": "Akkusativ maskulin: einen alten Freund.",
+    "grammarRule": "Akkusativ maskulin unbestimmter Artikel",
+    "tags": ["lueckentext", "artikel"]
+  },
+  {
+    "language": "german", "id": "b2-lueckentext-p5-032",
+    "level": "b2",
+    "category": "Lückentext",
+    "subcategory": "Konjunktionen",
+    "question": "Ergänze: 'Je mehr er trainiert, ___ schneller läuft er.'",
+    "options": ["so", "desto", "umso", "dann"],
+    "correctAnswer": 1,
+    "explanation": "'Je ... desto ...' für proportionale Steigerung.",
+    "grammarRule": "je ... desto ...",
+    "tags": ["lueckentext", "konjunktionen"]
+  },
+  {
+    "language": "german", "id": "b2-lueckentext-p5-033",
+    "level": "b2",
+    "category": "Lückentext",
+    "subcategory": "Verben",
+    "question": "Ergänze: 'Es ___ sich, dieses Buch zu lesen.'",
+    "options": ["macht", "gibt", "lohnt", "hat"],
+    "correctAnswer": 2,
+    "explanation": "'Es lohnt sich' + zu + Infinitiv.",
+    "grammarRule": "es lohnt sich + zu + Inf.",
+    "tags": ["lueckentext", "verben"]
+  },
+  {
+    "language": "german", "id": "b2-lueckentext-p5-034",
+    "level": "b2",
+    "category": "Lückentext",
+    "subcategory": "Präpositionen",
+    "question": "Ergänze: 'Wir treffen uns ___ Bahnhof.'",
+    "options": ["in dem", "an dem", "am", "im"],
+    "correctAnswer": 2,
+    "explanation": "'Am Bahnhof' = an dem Bahnhof (Treffpunkt).",
+    "grammarRule": "am = an + dem",
+    "tags": ["lueckentext", "präpositionen"]
+  },
+  {
+    "language": "german", "id": "b2-lueckentext-p5-035",
+    "level": "b2",
+    "category": "Lückentext",
+    "subcategory": "Adjektive",
+    "question": "Ergänze: 'Sie isst ___ Brot zum Frühstück.'",
+    "options": ["frischer", "frisches", "frische", "frischem"],
+    "correctAnswer": 1,
+    "explanation": "Akkusativ Neutrum ohne Artikel: frisches Brot.",
+    "grammarRule": "Adjektivdeklination ohne Artikel",
+    "tags": ["lueckentext", "adjektive"]
+  },
+  {
+    "language": "german", "id": "b2-lueckentext-p5-036",
+    "level": "b2",
+    "category": "Lückentext",
+    "subcategory": "Modalverben",
+    "question": "Ergänze: 'Du ___ den Arzt fragen.'",
+    "options": ["musst", "willst", "solltest", "darfst"],
+    "correctAnswer": 2,
+    "explanation": "'Solltest' für höflichen Ratschlag.",
+    "grammarRule": "sollen Konjunktiv II",
+    "tags": ["lueckentext", "modalverben"]
+  },
+  {
+    "language": "german", "id": "b2-lueckentext-p5-037",
+    "level": "b2",
+    "category": "Lückentext",
+    "subcategory": "Genitiv",
+    "question": "Ergänze: 'Das ist das Büro ___ Chefs.'",
+    "options": ["dem", "des", "den", "der"],
+    "correctAnswer": 1,
+    "explanation": "Genitiv maskulin: des Chefs.",
+    "grammarRule": "Genitiv maskulin",
+    "tags": ["lueckentext", "genitiv"]
+  },
+  {
+    "language": "german", "id": "b2-lueckentext-p5-038",
+    "level": "b2",
+    "category": "Lückentext",
+    "subcategory": "Verben",
+    "question": "Ergänze: 'Er lässt sein Auto ___.'",
+    "options": ["repariert", "zu reparieren", "reparieren", "repariere"],
+    "correctAnswer": 2,
+    "explanation": "'Lassen' + Infinitiv ohne 'zu'.",
+    "grammarRule": "lassen + Infinitiv",
+    "tags": ["lueckentext", "verben"]
+  },
+  {
+    "language": "german", "id": "b2-lueckentext-p5-039",
+    "level": "b2",
+    "category": "Lückentext",
+    "subcategory": "Konjunktionen",
+    "question": "Ergänze: 'Sie war so müde, ___ sie sofort einschlief.'",
+    "options": ["weil", "obwohl", "dass", "sodass"],
+    "correctAnswer": 2,
+    "explanation": "'So ... dass' für Folge.",
+    "grammarRule": "so ... dass + Konsekutivsatz",
+    "tags": ["lueckentext", "konjunktionen"]
+  },
+  {
+    "language": "german", "id": "b2-lueckentext-p5-040",
+    "level": "b2",
+    "category": "Lückentext",
+    "subcategory": "Präpositionen",
+    "question": "Ergänze: 'Er denkt ___ an seine Familie.'",
+    "options": ["immer", "oft", "nie", "manchmal"],
+    "correctAnswer": 1,
+    "explanation": "'Oft' = häufig, Frequenzadverb.",
+    "grammarRule": "Frequenzadverb",
+    "tags": ["lueckentext", "adverbien"]
+  },
+  {
+    "language": "german", "id": "b2-lueckentext-p5-041",
+    "level": "b2",
+    "category": "Lückentext",
+    "subcategory": "Nebensätze",
+    "question": "Ergänze: 'Ich warte hier, ___ du zurückkommst.'",
+    "options": ["wenn", "bis", "als", "seit"],
+    "correctAnswer": 1,
+    "explanation": "'Bis' für zeitliche Grenze.",
+    "grammarRule": "bis + temporaler Nebensatz",
+    "tags": ["lueckentext", "nebensätze"]
+  },
+  {
+    "language": "german", "id": "b2-lueckentext-p5-042",
+    "level": "b2",
+    "category": "Lückentext",
+    "subcategory": "Verben",
+    "question": "Ergänze: 'Der Fluss ___ über die Ufer getreten.'",
+    "options": ["hat", "ist", "wurde", "war"],
+    "correctAnswer": 1,
+    "explanation": "Perfekt mit 'sein' bei 'treten' (Zustandsveränderung).",
+    "grammarRule": "Perfekt mit sein",
+    "tags": ["lueckentext", "verben"]
+  },
+  {
+    "language": "german", "id": "b2-lueckentext-p5-043",
+    "level": "b2",
+    "category": "Lückentext",
+    "subcategory": "Pronomen",
+    "question": "Ergänze: 'Ich habe nichts ___ verstanden.'",
+    "options": ["daran", "darüber", "davon", "dafür"],
+    "correctAnswer": 2,
+    "explanation": "'Davon' = von dem Thema/der Sache.",
+    "grammarRule": "Pronominaladverb davon",
+    "tags": ["lueckentext", "pronomen"]
+  },
+  {
+    "language": "german", "id": "b2-lueckentext-p5-044",
+    "level": "b2",
+    "category": "Lückentext",
+    "subcategory": "Adjektive",
+    "question": "Ergänze: 'Sie wohnt in der ___ Stadt Deutschlands.'",
+    "options": ["größer", "große", "größten", "größte"],
+    "correctAnswer": 2,
+    "explanation": "Superlativ Dativ feminin: in der größten Stadt.",
+    "grammarRule": "Superlativ Dativ",
+    "tags": ["lueckentext", "adjektive"]
+  },
+  {
+    "language": "german", "id": "b2-lueckentext-p5-045",
+    "level": "b2",
+    "category": "Lückentext",
+    "subcategory": "Verben mit Dativ",
+    "question": "Ergänze: 'Danke, du hast ___ sehr geholfen.'",
+    "options": ["mich", "mir", "ich", "mein"],
+    "correctAnswer": 1,
+    "explanation": "'Helfen' + Dativ: mir geholfen.",
+    "grammarRule": "helfen + Dativ",
+    "tags": ["lueckentext", "verben mit dativ"]
+  },
+  {
+    "language": "german", "id": "b2-lueckentext-p5-046",
+    "level": "b2",
+    "category": "Lückentext",
+    "subcategory": "Präpositionen",
+    "question": "Ergänze: 'Er kommt ___ der Schule nach Hause.'",
+    "options": ["von", "aus", "nach", "ab"],
+    "correctAnswer": 0,
+    "explanation": "'Von der Schule' für Herkunft von einer Institution.",
+    "grammarRule": "von + Dativ (Herkunft)",
+    "tags": ["lueckentext", "präpositionen"]
+  },
+  {
+    "language": "german", "id": "b2-lueckentext-p5-047",
+    "level": "b2",
+    "category": "Lückentext",
+    "subcategory": "Konjunktionen",
+    "question": "Ergänze: 'Er hat weder angerufen ___ geschrieben.'",
+    "options": ["oder", "und", "noch", "aber"],
+    "correctAnswer": 2,
+    "explanation": "'Weder ... noch' = doppelte Verneinung.",
+    "grammarRule": "weder ... noch",
+    "tags": ["lueckentext", "konjunktionen"]
+  },
+  {
+    "language": "german", "id": "b2-lueckentext-p5-048",
+    "level": "b2",
+    "category": "Lückentext",
+    "subcategory": "Passiv",
+    "question": "Ergänze: 'Das Gebäude ___ im 19. Jahrhundert erbaut.'",
+    "options": ["hat", "ist", "wird", "wurde"],
+    "correctAnswer": 3,
+    "explanation": "Passiv Präteritum: wurde erbaut.",
+    "grammarRule": "Vorgangspassiv Präteritum",
+    "tags": ["lueckentext", "passiv"]
+  },
+  {
+    "language": "german", "id": "b2-lueckentext-p5-049",
+    "level": "b2",
+    "category": "Lückentext",
+    "subcategory": "Artikel",
+    "question": "Ergänze: 'Sie hat ___ Eltern zum Essen eingeladen.'",
+    "options": ["seine", "seine", "ihre", "ihren"],
+    "correctAnswer": 2,
+    "explanation": "Akkusativ Plural: ihre Eltern.",
+    "grammarRule": "Akkusativ Plural Possessivartikel",
+    "tags": ["lueckentext", "artikel"]
+  },
+  {
+    "language": "german", "id": "b2-lueckentext-p5-050",
+    "level": "b2",
+    "category": "Lückentext",
+    "subcategory": "Verben",
+    "question": "Ergänze: 'Es ___ mir schwer, Nein zu sagen.'",
+    "options": ["macht", "ist", "fällt", "gibt"],
+    "correctAnswer": 2,
+    "explanation": "'Es fällt mir schwer' + zu + Infinitiv.",
+    "grammarRule": "es fällt + Dativ + schwer",
+    "tags": ["lueckentext", "verben"]
+  },
+  { 'language': 'german', 'id': 'b1-lueckentext-p5-052', 'level': 'b1', 'category': 'Lückentext', 'subcategory': 'Konnektoren', 'question': 'Ergänze: \'___ er immer nach Berlin fuhr, besuchte er seinen Onkel.\'', 'options': ['Als', 'Wenn', 'Nachdem', 'Bevor'], 'correctAnswer': 1, 'explanation': '\'Wenn\' für wiederholte Handlungen in der Vergangenheit.', 'grammarRule': 'wenn + wiederholte Handlung', 'tags': ['lueckentext', 'konnektoren'] },
+  { 'language': 'german', 'id': 'b1-lueckentext-p5-053', 'level': 'b1', 'category': 'Lückentext', 'subcategory': 'Verben', 'question': 'Ergänze: \'Die Tür ___ schon geöffnet.\' (Zustandspassiv)', 'options': ['wird', 'wurde', 'ist', 'hat'], 'correctAnswer': 2, 'explanation': '\'ist + P.II\' = Zustandspassiv.', 'grammarRule': 'Zustandspassiv: sein + P.II', 'tags': ['lueckentext', 'verben'] }
+];
+
+export default questions;

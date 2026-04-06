@@ -1,0 +1,133 @@
+import { Question } from '@/types/question';
+
+const questions: Question[] = [
+  {
+    id: 'kafka-tx-l4-001',
+    language: 'kafka',
+    level: 'level4',
+    category: 'Transactions & EOS',
+    subcategory: 'EOS Basics',
+    question: 'What is the two-phase commit protocol Kafka uses for transactional writes, and what are the two phases?',
+    options: [
+      'Phase 1: Producer writes records to topic partitions. Phase 2: Transaction Coordinator writes COMMIT markers to each partition after all brokers acknowledge',
+      'Phase 1: Transaction Coordinator logs the transaction as "prepare commit". Phase 2: All partition leaders write the commit marker independently after receiving the coordinator\'s request',
+      'Phase 1: Consumer offsets are reserved. Phase 2: Output records are written with the reserved offsets',
+      'Phase 1: The producer locks all partitions. Phase 2: The coordinator releases the locks after commit',
+    ],
+    correctAnswer: 1,
+    explanation: 'Kafka\'s transaction protocol: (1) Coordinator writes a "PrepareCommit" record to `__transaction_state`. (2) Coordinator sends WriteTxnMarkers to each partition leader to append COMMIT control records. Once all markers are written, the coordinator logs "CompleteCommit". This ensures atomicity even if the coordinator crashes between phases.',
+    tags: ['kafka', 'two-phase-commit', 'transaction-coordinator', 'commit-protocol'],
+  },
+  {
+    id: 'kafka-tx-l4-002',
+    language: 'kafka',
+    level: 'level4',
+    category: 'Transactions & EOS',
+    subcategory: 'Idempotent Producer',
+    question: 'What happens when an idempotent producer sends a batch with a sequence number that is not exactly `last_sequence + 1`?',
+    options: [
+      'The broker accepts it and updates the sequence window if it is within the 5-batch window',
+      'If the sequence is lower than expected (duplicate), the broker silently discards it. If higher (gap), the broker returns `OutOfOrderSequenceException`, which is a fatal error requiring producer restart',
+      'The broker reorders the batch to the correct position automatically',
+      'The broker requests a retransmission of the missing sequence number from the producer',
+    ],
+    correctAnswer: 1,
+    explanation: '`OutOfOrderSequenceException` (gap in sequence numbers) indicates internal state corruption and is non-retriable: the producer must close and reinitialize. A duplicate (lower sequence) is safely discarded without error.',
+    tags: ['kafka', 'idempotent', 'out-of-order-sequence', 'sequence-number', 'error-handling'],
+  },
+  {
+    id: 'kafka-tx-l4-003',
+    language: 'kafka',
+    level: 'level4',
+    category: 'Transactions & EOS',
+    subcategory: 'Consume-Transform-Produce',
+    question: 'In a consume-transform-produce pattern with EOS, why must you use `ConsumerGroupMetadata` instead of just the group ID in `sendOffsetsToTransaction()`?',
+    options: [
+      'Using metadata instead of group ID reduces the size of the transaction state record',
+      'The `ConsumerGroupMetadata` includes the generation ID and member ID, enabling the broker to fence offset commits from zombie consumers in the same group that are behind in the rebalance protocol',
+      'It is required only for static group membership; dynamic membership can use group ID alone',
+      'The metadata contains the topic partition assignment used to validate that the offsets belong to this consumer\'s current assignment',
+    ],
+    correctAnswer: 1,
+    explanation: 'KIP-447 requires passing `ConsumerGroupMetadata` (generation ID + member ID) to `sendOffsetsToTransaction()`. The broker verifies the generation matches the current epoch, rejecting offset commits from stale (zombie) consumer instances that have been replaced by a rebalance.',
+    codeSnippet: `producer.sendOffsetsToTransaction(
+  offsetsToCommit,
+  consumer.groupMetadata()  // includes generationId, memberId
+);`,
+    tags: ['kafka', 'consumer-group-metadata', 'kip-447', 'eos', 'fencing'],
+  },
+  {
+    id: 'kafka-tx-l4-004',
+    language: 'kafka',
+    level: 'level4',
+    category: 'Transactions & EOS',
+    subcategory: 'Transaction Coordinator',
+    question: 'What does `transactional.id.expiration.ms` control and what happens to a transactional producer whose ID expires?',
+    options: [
+      'It sets the max lifetime of a single transaction; expired transactions are aborted immediately',
+      'It sets how long the broker retains transactional producer state after the last activity; after expiration, the producer\'s PID and epoch are removed and a new `initTransactions()` is required, assigning a new PID',
+      'It limits the duration of each `initTransactions()` handshake before timing out',
+      'It controls the TTL of entries in `__transaction_state` before log compaction removes them',
+    ],
+    correctAnswer: 1,
+    explanation: '`transactional.id.expiration.ms` (default 7 days) removes idle transactional producer state. After expiry, the next `initTransactions()` call gets a fresh PID, clearing all sequence tracking. This prevents stale state accumulation in long-running clusters.',
+    tags: ['kafka', 'transactional-id-expiration', 'producer-state', 'configuration'],
+  },
+  {
+    id: 'kafka-tx-l4-005',
+    language: 'kafka',
+    level: 'level4',
+    category: 'Transactions & EOS',
+    subcategory: 'Isolation Level',
+    question: 'How does Kafka handle "aborted transaction index" files and why are they needed for consumer performance?',
+    options: [
+      'Each partition maintains a `.aborted` index mapping aborted transaction offsets, allowing `read_committed` consumers to skip aborted records without scanning the full log',
+      'Aborted transaction records are physically deleted from the log immediately after abort',
+      'The consumer maintains its own in-memory cache of aborted transaction markers to filter records locally',
+      'Aborted transactions are redirected to a dead-letter topic for inspection',
+    ],
+    correctAnswer: 0,
+    explanation: 'Kafka maintains an `.txnindex` (aborted transaction index) per segment, listing the offsets of aborted transaction control records. `read_committed` consumers use this index to efficiently skip aborted records without fetching and evaluating every control record.',
+    codeSnippet: `# Partition directory files
+00000000000000000000.log
+00000000000000000000.index
+00000000000000000000.txnindex   # aborted transaction index`,
+    tags: ['kafka', 'aborted-transaction-index', 'txnindex', 'read-committed', 'performance'],
+  },
+  {
+    id: 'kafka-tx-l4-006',
+    language: 'kafka',
+    level: 'level4',
+    category: 'Transactions & EOS',
+    subcategory: 'EOS Basics',
+    question: 'What is the "EOS v2" improvement in Kafka 3.0+ (KIP-360) for faster producer epoch bumping?',
+    options: [
+      'Epoch bumping is moved to the producer side, eliminating the coordinator round-trip entirely',
+      'When an application calls `initTransactions()`, instead of completing any pending transaction via the full two-phase path, the coordinator can bump the epoch and write a single fencing record, making recovery faster after producer failures',
+      'EOS v2 removes the need for `__transaction_state` by embedding epoch state in the producer ID itself',
+      'Epoch bumps are batched across multiple producers to reduce coordinator write amplification',
+    ],
+    correctAnswer: 1,
+    explanation: 'KIP-360 optimizes `initTransactions()` recovery: instead of completing an in-flight transaction via the full two-phase path, the coordinator can immediately fence the old epoch and let the new producer start fresh, reducing initialization latency.',
+    tags: ['kafka', 'eos-v2', 'kip-360', 'epoch', 'init-transactions', 'performance'],
+  },
+  {
+    id: 'kafka-tx-l4-007',
+    language: 'kafka',
+    level: 'level4',
+    category: 'Transactions & EOS',
+    subcategory: 'Consume-Transform-Produce',
+    question: 'When implementing EOS in a stateful Kafka Streams application, how does changelog topic replication interact with transactional guarantees?',
+    options: [
+      'State store changelog topics do not participate in transactions; only the output topics are transactional',
+      'Changelog writes are included in the task\'s transaction, so state store updates and output records are committed atomically, ensuring the state store and output topic are always consistent',
+      'Kafka Streams uses a separate replication protocol for changelogs that bypasses the transaction API',
+      'Changelog topics must use `cleanup.policy=delete` to work with EOS; compacted changelogs are incompatible with transactions',
+    ],
+    correctAnswer: 1,
+    explanation: 'With EOS enabled in Kafka Streams, writes to changelog topics (state store backups) are included in the same transaction as output topic writes. On recovery, the state store is restored from changelog up to the last committed offset, guaranteeing consistency between state and outputs.',
+    tags: ['kafka', 'kafka-streams', 'changelog', 'eos', 'state-store', 'transactions'],
+  },
+];
+
+export default questions;

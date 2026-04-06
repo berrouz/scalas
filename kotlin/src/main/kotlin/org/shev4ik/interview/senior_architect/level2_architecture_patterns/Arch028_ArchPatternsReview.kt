@@ -1,0 +1,47 @@
+package org.shev4ik.interview.senior_architect.level2_architecture_patterns
+
+/**
+ * Architecture patterns review
+ */
+object Arch028_ArchPatternsReview {
+
+    // Exercise 1: review1
+    // TODO: Implement the design pattern/principle: review1.
+    // TODO: Topic: Architecture patterns review.
+    // TODO: Create classes/interfaces demonstrating this concept. Return a description or validation.
+    fun exercise1_review1(): String = TODO()
+
+    // Exercise 2: review2
+    // TODO: Implement the design pattern/principle: review2.
+    // TODO: Topic: Architecture patterns review.
+    // TODO: Create classes/interfaces demonstrating this concept. Return a description or validation.
+    fun exercise2_review2(): String = TODO()
+
+    // Exercise 3: review3
+    // TODO: Implement the design pattern/principle: review3.
+    // TODO: Topic: Architecture patterns review.
+    // TODO: Create classes/interfaces demonstrating this concept. Return a description or validation.
+    fun exercise3_review3(): String = TODO()
+
+    // Exercise 4: review4
+    // TODO: Implement the design pattern/principle: review4.
+    // TODO: Topic: Architecture patterns review.
+    // TODO: Create classes/interfaces demonstrating this concept. Return a description or validation.
+    fun exercise4_review4(): String = TODO()
+
+    // Exercise 5: review5
+    // TODO: Implement the design pattern/principle: review5.
+    // TODO: Topic: Architecture patterns review.
+    // TODO: Create classes/interfaces demonstrating this concept. Return a description or validation.
+    fun exercise5_review5(): String = TODO()
+
+    @JvmStatic
+    fun main(args: Array<String>) {
+        assert(exercise1_review1().isNotEmpty()) { "Exercise 1 failed" }
+        assert(exercise2_review2().isNotEmpty()) { "Exercise 2 failed" }
+        assert(exercise3_review3().isNotEmpty()) { "Exercise 3 failed" }
+        assert(exercise4_review4().isNotEmpty()) { "Exercise 4 failed" }
+        assert(exercise5_review5().isNotEmpty()) { "Exercise 5 failed" }
+        println("All Arch028_ArchPatternsReview exercises passed!")
+    }
+}

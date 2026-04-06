@@ -1,0 +1,26 @@
+*.class
+*.log
+*.iml
+.idea/*
+*/target/*
+target/*
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+
+# Node.js / Next.js
+node_modules/
+.next/
+out/
+
+# IDE / tools
+.bsp/
+.claude/
+node_modules/
+.next/

@@ -1,0 +1,11 @@
+import { Question } from '@/types/question';
+
+const questions: Question[] = [
+  { 'language': 'german', 'id': 'b1-nebensaetze-p5-002', 'level': 'b1', 'category': 'Nebensätze', 'question': 'Welche Bedeutung hat die Subjunktion \'während\'?', 'options': ['Grund/Ursache', 'Inhalt/Tatsache', 'Zweck/Absicht', 'Gleichzeitigkeit'], 'correctAnswer': 3, 'explanation': '\'während\' drückt Gleichzeitigkeit aus.', 'exampleSentence': 'Während ich koche, liest er die Zeitung.', 'subcategory': 'Bedeutung', 'tags': ['nebensaetze', 'subjunktion'] },
+  { 'language': 'german', 'id': 'b1-nebensaetze-p5-007', 'level': 'b1', 'category': 'Nebensätze', 'question': 'Welche Subjunktion passt: \'Ich weiß nicht, ___ es heute regnet.\' (indirekte Ja/Nein-Frage)', 'options': ['als', 'bevor', 'damit', 'ob'], 'correctAnswer': 3, 'explanation': 'Für indirekte Ja/Nein-Frage verwendet man \'ob\'.', 'subcategory': 'Auswahl', 'tags': ['nebensaetze', 'auswahl'] },
+  { 'language': 'german', 'id': 'b1-nebensaetze-p5-010', 'level': 'b1', 'category': 'Nebensätze', 'question': 'Welche Subjunktion passt: \'___ es regnet, bleibe ich zu Hause.\' (Gegengrund/Konzession)', 'options': ['wenn', 'obwohl', 'dass', 'ob'], 'correctAnswer': 1, 'explanation': 'Für Gegengrund/Konzession verwendet man \'obwohl\'.', 'subcategory': 'Auswahl', 'tags': ['nebensaetze', 'auswahl'] },
+  { 'language': 'german', 'id': 'b1-nebensaetze-p5-020', 'level': 'b1', 'category': 'Nebensätze', 'question': 'Welche Subjunktion kann man für eine unsichere Bedingung verwenden?', 'options': ['wenn', 'falls', 'als', 'nachdem'], 'correctAnswer': 1, 'explanation': '\'falls\' drückt eine unsichere/mögliche Bedingung aus: Es ist nicht sicher, ob es passiert.', 'grammarRule': 'falls = unsichere Bedingung, wenn = allgemeine Bedingung', 'subcategory': 'Bedeutung', 'tags': ['nebensaetze', 'konditionalsatz'] },
+  { 'language': 'german', 'id': 'b1-nebensaetze-p5-036', 'level': 'b1', 'category': 'Nebensätze', 'question': 'Ergänzen Sie: \'___ es regnet, ___ die Sonne scheint, wir gehen spazieren.\' (egal)', 'options': ['Weil ... und', 'Ob ... oder', 'Damit ... und', 'Obwohl ... und'], 'correctAnswer': 1, 'explanation': '\'ob ... oder\' drückt aus, dass es keine Rolle spielt: Egal welches Wetter.', 'subcategory': 'Auswahl', 'tags': ['nebensaetze', 'konzessivsatz'] }
+];
+
+export default questions;
